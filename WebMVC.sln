@@ -3,9 +3,25 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.31402.337
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "WebMVC1", "WebMVC1\WebMVC1.csproj", "{EBC06C29-3A96-4676-8B00-71AC2AC56BF8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DuongAppFirst", "DuongAppFirst\DuongAppFirst.csproj", "{06549C1C-265D-4E8F-882C-F98E8A9FC804}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WebMvc", "WebMvc\WebMvc.csproj", "{EA825FD1-80E5-4467-BF87-1A3C5D80C7D4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuongAppFirst.Utillities", "DuongAppFirst.Utillities\DuongAppFirst.Utillities.csproj", "{B8BCEE13-3113-41E1-977A-A57B048A64E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuongAppFirst.Data", "DuongAppFirst.Data\DuongAppFirst.Data.csproj", "{44608DBF-5C69-4399-822F-4A37AD191CB8}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuongAppFirst.Data.EF", "DuongAppFirst.Data.EF\DuongAppFirst.Data.EF.csproj", "{C89087CE-1C69-43D2-8598-8BE16109237A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuongAppFirst.Application", "DuongAppFirst.Application\DuongAppFirst.Application.csproj", "{2DCD8EDD-8BC2-45F2-812A-CB69906AC65A}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1 - Presentation", "1 - Presentation", "{9639666C-3232-48E4-A620-75ACE29CCB37}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "2 - Application", "2 - Application", "{E872999A-BB9F-4B98-90D7-4461E21A6585}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "3 - Domain", "3 - Domain", "{8A910B43-904B-4498-A741-F567DDF2A8BD}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "4 - Infrastructure", "4 - Infrastructure", "{B0D4176F-30A1-4098-AF9F-2257E2F22C34}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DuongAppFirst.Infrastructure", "DuongAppFirst.Infrastructure\DuongAppFirst.Infrastructure.csproj", "{15EF0F9E-94EC-4BA4-B0F1-861EAC0BE95C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,17 +29,41 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{EBC06C29-3A96-4676-8B00-71AC2AC56BF8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EBC06C29-3A96-4676-8B00-71AC2AC56BF8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EBC06C29-3A96-4676-8B00-71AC2AC56BF8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EBC06C29-3A96-4676-8B00-71AC2AC56BF8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{EA825FD1-80E5-4467-BF87-1A3C5D80C7D4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{EA825FD1-80E5-4467-BF87-1A3C5D80C7D4}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{EA825FD1-80E5-4467-BF87-1A3C5D80C7D4}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{EA825FD1-80E5-4467-BF87-1A3C5D80C7D4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{06549C1C-265D-4E8F-882C-F98E8A9FC804}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{06549C1C-265D-4E8F-882C-F98E8A9FC804}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{06549C1C-265D-4E8F-882C-F98E8A9FC804}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{06549C1C-265D-4E8F-882C-F98E8A9FC804}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B8BCEE13-3113-41E1-977A-A57B048A64E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B8BCEE13-3113-41E1-977A-A57B048A64E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B8BCEE13-3113-41E1-977A-A57B048A64E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B8BCEE13-3113-41E1-977A-A57B048A64E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{44608DBF-5C69-4399-822F-4A37AD191CB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{44608DBF-5C69-4399-822F-4A37AD191CB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{44608DBF-5C69-4399-822F-4A37AD191CB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{44608DBF-5C69-4399-822F-4A37AD191CB8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C89087CE-1C69-43D2-8598-8BE16109237A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C89087CE-1C69-43D2-8598-8BE16109237A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C89087CE-1C69-43D2-8598-8BE16109237A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C89087CE-1C69-43D2-8598-8BE16109237A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DCD8EDD-8BC2-45F2-812A-CB69906AC65A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DCD8EDD-8BC2-45F2-812A-CB69906AC65A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DCD8EDD-8BC2-45F2-812A-CB69906AC65A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DCD8EDD-8BC2-45F2-812A-CB69906AC65A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{15EF0F9E-94EC-4BA4-B0F1-861EAC0BE95C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{15EF0F9E-94EC-4BA4-B0F1-861EAC0BE95C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{15EF0F9E-94EC-4BA4-B0F1-861EAC0BE95C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{15EF0F9E-94EC-4BA4-B0F1-861EAC0BE95C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{06549C1C-265D-4E8F-882C-F98E8A9FC804} = {9639666C-3232-48E4-A620-75ACE29CCB37}
+		{B8BCEE13-3113-41E1-977A-A57B048A64E2} = {B0D4176F-30A1-4098-AF9F-2257E2F22C34}
+		{44608DBF-5C69-4399-822F-4A37AD191CB8} = {8A910B43-904B-4498-A741-F567DDF2A8BD}
+		{C89087CE-1C69-43D2-8598-8BE16109237A} = {8A910B43-904B-4498-A741-F567DDF2A8BD}
+		{2DCD8EDD-8BC2-45F2-812A-CB69906AC65A} = {E872999A-BB9F-4B98-90D7-4461E21A6585}
+		{15EF0F9E-94EC-4BA4-B0F1-861EAC0BE95C} = {B0D4176F-30A1-4098-AF9F-2257E2F22C34}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {FCDE55B2-0920-4851-9F15-2BAA23A72968}
