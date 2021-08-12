@@ -4,4 +4,17 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Interfaces\" />
+    <Folder Include="Implementations\" />
+    <Folder Include="AutoMapper\" />
+    <Folder Include="ViewModels\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DuongAppFirst.Data.EF\DuongAppFirst.Data.EF.csproj" />
+    <ProjectReference Include="..\DuongAppFirst.Data\DuongAppFirst.Data.csproj" />
+    <ProjectReference Include="..\DuongAppFirst.Utillities\DuongAppFirst.Utillities.csproj" />
+  </ItemGroup>
+
 </Project>

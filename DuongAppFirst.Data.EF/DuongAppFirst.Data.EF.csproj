@@ -4,4 +4,16 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="Configurations\" />
+    <Folder Include="Extentions\" />
+    <Folder Include="Repositories\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DuongAppFirst.Data\DuongAppFirst.Data.csproj" />
+    <ProjectReference Include="..\DuongAppFirst.Infrastructure\DuongAppFirst.Infrastructure.csproj" />
+    <ProjectReference Include="..\DuongAppFirst.Utillities\DuongAppFirst.Utillities.csproj" />
+  </ItemGroup>
+
 </Project>

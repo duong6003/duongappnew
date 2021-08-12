@@ -10,4 +10,12 @@
     <PackageReference Include="Microsoft.AspNetCore.Razor.Design" Version="2.1.2" PrivateAssets="All" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\DuongAppFirst.Application\DuongAppFirst.Application.csproj" />
+    <ProjectReference Include="..\DuongAppFirst.Data.EF\DuongAppFirst.Data.EF.csproj" />
+    <ProjectReference Include="..\DuongAppFirst.Data\DuongAppFirst.Data.csproj" />
+    <ProjectReference Include="..\DuongAppFirst.Infrastructure\DuongAppFirst.Infrastructure.csproj" />
+    <ProjectReference Include="..\DuongAppFirst.Utillities\DuongAppFirst.Utillities.csproj" />
+  </ItemGroup>
+
 </Project>
