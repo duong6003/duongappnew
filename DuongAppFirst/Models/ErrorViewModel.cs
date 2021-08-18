@@ -1,5 +1,3 @@
-using System;
-
 namespace DuongAppFirst.Models
 {
     public class ErrorViewModel
