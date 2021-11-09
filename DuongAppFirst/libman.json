@@ -1,0 +1,63 @@
+{
+  "version": "1.0",
+  "defaultProvider": "cdnjs",
+  "defaultDestination": "wwwroot/lib",
+  "libraries": [
+    {
+      "library": "jquery-validation-unobtrusive@3.2.6",
+      "destination": "wwwroot/lib/jquery-validation-unobtrusive"
+    },
+    {
+      "library": "font-awesome@4.7.0",
+      "destination": "wwwroot/lib/font-awesome"
+    },
+    {
+      "library": "nprogress@0.2.0",
+      "destination": "wwwroot/lib/nprogress"
+    },
+    {
+      "library": "bootstrap-daterangepicker@2.1.25",
+      "destination": "wwwroot/lib/bootstrap-daterangepicker"
+    },
+    {
+      "library": "fastclick@1.0.6",
+      "destination": "wwwroot/lib/fastclick"
+    },
+    {
+      "library": "Chart.js@2.7.1",
+      "destination": "wwwroot/lib/Chart.js"
+    },
+    {
+      "library": "flot@0.8.3",
+      "destination": "wwwroot/lib/flot"
+    },
+    {
+      "library": "moment.js@2.19.1",
+      "destination": "wwwroot/lib/moment"
+    },
+    {
+      "library": "bootbox.js@4.4.0",
+      "destination": "wwwroot/lib/bootbox"
+    },
+    {
+      "library": "animate.css@3.5.2",
+      "destination": "wwwroot/lib/animate"
+    },
+    {
+      "library": "mustache.js@2.3.0",
+      "destination": "wwwroot/lib/mustache"
+    },
+    {
+      "library": "twbs-pagination@1.4.1",
+      "destination": "wwwroot/lib/twbs-pagination"
+    },
+    {
+      "library": "ckeditor@4.7.3",
+      "destination": "wwwroot/lib/ckeditor"
+    },
+    {
+      "library": "bootstrap-datepicker@1.7.1",
+      "destination": "wwwroot/lib/bootstrap-datepicker"
+    }
+  ]
+}

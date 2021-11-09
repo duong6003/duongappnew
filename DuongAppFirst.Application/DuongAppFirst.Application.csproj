@@ -4,4 +4,19 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Folder Include="AutoMapper\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="6.1.1" />
+    <PackageReference Include="EPPlus.Core" Version="1.5.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DuongAppFirst.Data.EF\DuongAppFirst.Data.EF.csproj" />
+    <ProjectReference Include="..\DuongAppFirst.Data\DuongAppFirst.Data.csproj" />
+    <ProjectReference Include="..\DuongAppFirst.Utillities\DuongAppFirst.Utillities.csproj" />
+  </ItemGroup>
+
 </Project>

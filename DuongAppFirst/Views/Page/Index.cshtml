@@ -1,0 +1,50 @@
+﻿@model DuongAppFirst.Application.ViewModels.Blog.PageViewModel
+@{
+    ViewData["Title"] = Model.Name;
+    ViewData["MetaKeyword"] = Model.Name;
+    ViewData["MetaDescription"] = Model.Name;
+}
+
+<!-- Start breadcrumb area -->
+<div class="container-fluid">
+    <div class="ht__bradcaump__area">
+        <div class="ht__bradcaump__wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="bradcaump__inner">
+                            <nav class="bradcaump-inner">
+                                <a class="breadcrumb-item" href="/">Home</a>
+                                <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
+                                <span class="breadcrumb-item active">@Model.Name</span>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End breadcrumb area -->
+<!-- Main Container -->
+<section class="blog_post">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12">
+                <div class="entry-detail">
+                    <div class="page-title">
+                    </div>
+                    <div class="entry-meta-data">
+                        <div class="blog-top-desc">
+                            <h1>@Model.Name</h1>
+                        </div>
+                    </div>
+                    <div class="content-text clearfix">
+                        @Html.Raw(Model.Content)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Main Container End --> 

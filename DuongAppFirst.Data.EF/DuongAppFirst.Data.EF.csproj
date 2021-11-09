@@ -4,4 +4,67 @@
     <TargetFramework>netcoreapp2.1</TargetFramework>
   </PropertyGroup>
 
+  <ItemGroup>
+    <Compile Remove="Migrations\20210901012748_initial.cs" />
+    <Compile Remove="Migrations\20210901012748_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210901013825_change.cs" />
+    <Compile Remove="Migrations\20210901013825_change.Designer.cs" />
+    <Compile Remove="Migrations\20210901015217_initial.cs" />
+    <Compile Remove="Migrations\20210901015217_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210901015447_initial.cs" />
+    <Compile Remove="Migrations\20210901015447_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210901015619_initial.cs" />
+    <Compile Remove="Migrations\20210901015619_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210901022336_initial.cs" />
+    <Compile Remove="Migrations\20210901022336_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210901095432_initial.cs" />
+    <Compile Remove="Migrations\20210901095432_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210906090013_initital.cs" />
+    <Compile Remove="Migrations\20210906090013_initital.Designer.cs" />
+    <Compile Remove="Migrations\20210907025650_fixAvatar.cs" />
+    <Compile Remove="Migrations\20210907025650_fixAvatar.Designer.cs" />
+    <Compile Remove="Migrations\20210917074910_initial.cs" />
+    <Compile Remove="Migrations\20210917074910_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210917090648_initial.cs" />
+    <Compile Remove="Migrations\20210917090648_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210922040627_updatebill.cs" />
+    <Compile Remove="Migrations\20210922040627_updatebill.Designer.cs" />
+    <Compile Remove="Migrations\20210922073140_initial.cs" />
+    <Compile Remove="Migrations\20210922073140_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210927140150_initial.cs" />
+    <Compile Remove="Migrations\20210927140150_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210928084333_initial.cs" />
+    <Compile Remove="Migrations\20210928084333_initial.Designer.cs" />
+    <Compile Remove="Migrations\20210928090539_initial.cs" />
+    <Compile Remove="Migrations\20210928090539_initial.Designer.cs" />
+    <Compile Remove="Migrations\20211010093150_updateWishList.cs" />
+    <Compile Remove="Migrations\20211010093150_updateWishList.Designer.cs" />
+    <Compile Remove="Migrations\20211010093749_initial.cs" />
+    <Compile Remove="Migrations\20211010093749_initial.Designer.cs" />
+    <Compile Remove="Migrations\20211023010405_update-user.cs" />
+    <Compile Remove="Migrations\20211023010405_update-user.Designer.cs" />
+    <Compile Remove="Migrations\20211023011457_initial.cs" />
+    <Compile Remove="Migrations\20211023011457_initial.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Identity" Version="2.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="2.0.1" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.1.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="2.1.14" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="2.1.14">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.FileExtensions" Version="2.1.1" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="2.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\DuongAppFirst.Data\DuongAppFirst.Data.csproj" />
+    <ProjectReference Include="..\DuongAppFirst.Infrastructure\DuongAppFirst.Infrastructure.csproj" />
+    <ProjectReference Include="..\DuongAppFirst.Utillities\DuongAppFirst.Utillities.csproj" />
+  </ItemGroup>
+
 </Project>

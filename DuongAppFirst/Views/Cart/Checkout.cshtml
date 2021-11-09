@@ -1,0 +1,258 @@
+﻿@model CheckoutViewModel
+@{
+    ViewData["Title"] = "Checkout";
+    var cartPrice = Model.Carts.Sum(x => x.Quantity * x.Price);
+    //TODO: shipping model unfinished
+    var ship = 0;
+}
+@section Scripts {
+    <recaptcha-script validation-message-element-id="recaptchaErrorMessage" />
+    <script src="~/client-app/controllers/checkout/index.js" asp-append-version="true"></script>
+    <script>
+        var checkoutObj = new CheckOutController();
+        checkoutObj.initialize();
+    </script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+}
+<!-- Start Bradcaump area -->
+<div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url(images/bg/4.jpg) no-repeat scroll center center / cover ;">
+    <div class="ht__bradcaump__wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="bradcaump__inner">
+                        <nav class="bradcaump-inner">
+                            <a class="breadcrumb-item" href="index.html">Home</a>
+                            <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
+                            <span class="breadcrumb-item active">checkout</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Bradcaump area -->
+<!-- cart-main-area start -->
+<div class="checkout-wrap ptb--100">
+    <div class="container">
+        <div class="row">
+            @if (ViewData["Success"] != null)
+            {
+                if ((bool)ViewData["Success"] == true)
+                {
+                    <div class="alert alert-success">
+                        Thank you for your order. We are going to confirm your order soon.
+                    </div>
+
+                }
+                else
+                {
+                    <div class="alert alert-danger">
+                        Have an error in order progress. Please contact to administrator.
+                    </div>
+
+                }
+            }
+            else
+            {
+                <form action="/checkout.html" method="post">
+                    @Html.AntiForgeryToken()
+                    <div class="col-md-8">
+                        <div class="checkout__inner">
+                            <div class="accordion-list">
+                                <div class="accordion">
+                                    <div class="accordion__title">
+                                        Checkout Method
+                                    </div>
+                                    <div class="accordion__body">
+                                        <div class="accordion__body__form">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <div class="checkout-method">
+
+                                                        <div class="checkout-method__single">
+                                                            <h5 class="checkout-method__title"><i class="zmdi zmdi-caret-right"></i>CHECKOUT AS A GUEST OR <a href="/register.html" style="color: #c43b68; margin: 4px;">REGISTER</a></h5>
+                                                            <p> - Fast and easy check out</p>
+                                                            <p> - Easy access to your order history and status</p>
+                                                        </div>
+                                                        @if (!User.Identity.IsAuthenticated)
+                                                        {
+                                                            <div class="checkout-method__login">
+                                                                <div class="dark-btn">
+                                                                    <a href="/login.html">LogIn</a>
+                                                                </div>
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="accordion__title">
+                                        shipping information
+                                    </div>
+                                    <div class="accordion__body">
+                                        <div class="shipinfo">
+                                            <h3 class="shipinfo__title">Shipping Address</h3>
+                                            @if (User.Identity.IsAuthenticated)
+                                            {
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="single-input">
+                                                            <input type="text" placeholder="Full name" asp-for="CustomerName" value="@Model.CustomerName">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="single-input">
+                                                            <input type="text" placeholder="Address" asp-for="CustomerAddress" value="@Model.CustomerAddress">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="single-input">
+                                                            <input type="text" placeholder="Phone number" asp-for="CustomerMobile" value="@Model.CustomerMobile">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="single-input">
+                                                            <input type="text" placeholder="Message" asp-for="CustomerMessage">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                            else
+                                            {
+                                                <p><b>Address:</b>You don't have address, click 'Ship to another address' to fill out information</p>
+                                                <a href="#" class="ship-to-another-trigger"><i class="zmdi zmdi-long-arrow-right"></i>Ship to another address</a>
+                                                <div class="ship-to-another-content">
+
+                                                    <div class="row">
+                                                        <div class="col-md-6">
+                                                            <div class="single-input">
+                                                                <input type="text" placeholder="Full name" asp-for="CustomerName">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-12">
+                                                            <div class="single-input">
+                                                                <input type="text" placeholder="Address" asp-for="CustomerAddress">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="single-input">
+                                                                <input type="text" placeholder="Phone number" asp-for="CustomerMobile">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-md-6">
+                                                            <div class="single-input">
+                                                                <input type="text" placeholder="Message" asp-for="CustomerMessage">
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            }
+                                        </div>
+                                    </div>
+                                    @*<div class="accordion__title">
+                                            shipping method
+                                        </div>
+                                        <div class="accordion__body">
+                                            <div class="shipmethod">
+                                                <div class="single-input">
+                                                    <p>
+                                                        <input type="radio" name="ship-method" id="ship-fast">
+                                                        <label for="ship-fast">Fast shipping</label>
+                                                    </p>
+                                                </div>
+                                                <div class="single-input">
+                                                    <p>
+                                                        <input type="radio" name="ship-method" id="ship-normal">
+                                                        <label for="ship-normal">Normal shipping</label>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </div>*@
+                                    <div class="accordion__title">
+                                        payment information
+                                    </div>
+                                    <div class="accordion__body">
+                                        <div class="paymentinfo">
+                                            <ul>
+                                                @for (int i = 0; i < Model.PaymentMethods.Count; i++)
+                                                {
+                                                    <li>
+                                                        <label asp-for="@Model.PaymentMethods[i].Value" style="font-family:'Poppins';font-size: 16px;font-weight: 500;">
+                                                            <input type="radio" name="paymentMethod" asp-for="PaymentMethod" value="@Model.PaymentMethods[i].Value">
+                                                            @Model.PaymentMethods[i].Name
+                                                        </label>
+                                                    </li>
+                                                }
+                                            </ul>
+                                            <div class="paymentinfo-credit-content">
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="single-input">
+                                                            <input type="text" placeholder="Credit Card Number*">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-12">
+                                                        <div class="single-input">
+                                                            <input type="text" placeholder="Card verification number*">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="order-details">
+                            <h5 class="order-details__title">Your Order</h5>
+                            <div class="order-details__item">
+                                @foreach (var item in Model.Carts)
+                                {
+                                    var url = "/" + item.Product.SeoAlias + "-p." + item.Product.Id + ".html";
+                                    <div class="single-item">
+                                        <div class="single-item__thumb">
+                                            <img src="@item.Product.Image" alt="@item.Product.Name">
+                                        </div>
+                                        <div class="single-item__content">
+                                            <a href="url">@item.Product.Name</a>
+                                            <span class="price">@item.Price.ToString("N0")</span>
+                                        </div>
+                                        <div class="single-item__remove">
+                                            <button class="btnDelete" type="button" data-id="@item.Product.Id" style="padding: 15px;"><i class="zmdi zmdi-delete"></i></button>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                            <div class="order-details__count">
+                                <div class="order-details__count__single">
+                                    <h5>sub total</h5>
+                                    <span class="price">@cartPrice.ToString("N0")</span>
+                                </div>
+                                <div class="order-details__count__single">
+                                    <h5>Shipping</h5>
+                                    <span class="price">@ship.ToString("N0")</span>
+                                </div>
+                            </div>
+                            <div class="ordre-details__total">
+                                <h5>Order total</h5>
+                                <span class="price">@((cartPrice + ship).ToString("N0"))</span>
+                            </div>
+                            <recaptcha /><span class="text-danger" id="recaptchaErrorMessage"></span>
+                            <div class="check-out-form__btn">
+                                <button type="button" class="" onclick="window.location.href='/cart.html'"><span>Back to cart</span></button>
+                                <button type="submit" class="active"><span>Place Order</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+</div>
+<!-- cart-main-area end -->
+@await Component.InvokeAsync("Brand")

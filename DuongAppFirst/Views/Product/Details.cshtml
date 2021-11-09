@@ -1,0 +1,283 @@
+﻿@model DuongAppFirst.Models.ProductViewModels.DetailViewModel
+@{
+    ViewData["Title"] = Model.Product.Name;
+    ViewData["MetaKeyword"] = Model.Product.SeoKeywords;
+    ViewData["MetaDescription"] = Model.Product.SeoDescription;
+    var product = Model.Product;
+    var category = Model.Category;
+}
+<!-- Start Bradcaump area -->
+<div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url(images/bg/4.jpg) no-repeat scroll center center / cover ;">
+    <div class="ht__bradcaump__wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="bradcaump__inner">
+                        <nav class="bradcaump-inner">
+                            <a class="breadcrumb-item" href="index.html">Home</a>
+                            <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
+                            <a class="breadcrumb-item" href="product.html">@category.Name</a>
+                            <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
+                            <span class="breadcrumb-item active">@Model.Product.Name</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Bradcaump area -->
+<!-- Start Product Details Area -->
+<section class="htc__product__details bg__white ptb--100">
+    <!-- Start Product Details Top -->
+    <div class="htc__product__details__top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-5 col-lg-5 col-sm-12 col-xs-12">
+                    <div class="htc__product__details__tab__content">
+                        <!-- Start Product Big Images -->
+                        <div class="product__big__images">
+                            <div class="portfolio-full-image tab-content">
+                                @if (Model.ProductImages.Count > 0)
+                                {
+                                    <div role="tabpanel" class="tab-pane fade in active" id="img-tab-1">
+                                        <img src="@Model.ProductImages.First().Path" alt="full-image">
+                                    </div>
+                                }
+                                @if (Model.ProductImages.Count == 0)
+                                {
+                                    <div role="tabpanel" class="tab-pane fade in active" id="img-tab-1">
+                                        <img src="~/client-side/images/product-2/big-img/1.jpg" alt="full-image">
+                                    </div>
+                                }
+                            </div>
+                            <div class="fr__hover__info">
+                                <ul class="product__action">
+                                    <li>
+                                        <button class="btnAddToWishList" data-id="@product.Id" type="button">
+                                            <i class="icon-heart icons"></i>
+                                        </button>
+                                    </li>
+                                    <li>
+                                        <button id="btnAddToCart" data-id="@product.Id" type="button">
+                                            <i class="icon-basket icons"></i>
+                                        </button>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <!-- End Product Big Images -->
+                        <!-- Start Small images -->
+                        <ul class="product__small__images" role="tablist">
+                            @foreach (var item in Model.ProductImages)
+                            {
+                                <li role="presentation" class="pot-small-img active">
+                                    <a href="#img-tab-1" role="tab" data-toggle="tab">
+                                        <img src="@item.Path" alt="@item.Caption">
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                        <!-- End Small images -->
+                    </div>
+                </div>
+                <div class="col-md-7 col-lg-7 col-sm-12 col-xs-12 smt-40 xmt-40">
+                    <div class="ht__product__dtl">
+                        <h2>@product.Name</h2>
+                        <ul class="rating">
+                            <li><i class="icon-star icons"></i></li>
+                            <li><i class="icon-star icons"></i></li>
+                            <li><i class="icon-star icons"></i></li>
+                            <li class="old"><i class="icon-star icons"></i></li>
+                            <li class="old"><i class="icon-star icons"></i></li>
+                        </ul>
+                        <ul class="pro__prize">
+                            @if (product.PromotionPrice.HasValue)
+                            {
+                                <li class="old__prize">@product.Price.ToString("N0")</li>
+                                <li>@product.PromotionPrice.Value.ToString("N0")</li>
+                            }
+                            else
+                            {
+                                <li>@product.Price.ToString("N0")</li>
+                            }
+                        </ul>
+                        @if (string.IsNullOrEmpty(product.Description))
+                        {
+                            <p class="pro__info">This product has no description</p>
+                        }
+                        else
+                        {
+                            <p class="pro__info">@product.Description</p>
+                        }
+                    <div class="ht__pro__desc">
+                        <div class="sin__desc">
+                            <p><span>Availability: </span> @product.Status</p>
+                        </div>
+                        <div class="sin__desc align--left">
+                            <p><span>color:</span></p>
+                            <select asp-items="Model.Colors" class="select__color" id="ddlColorId"></select>
+                        </div>
+                        <div class="sin__desc align--left">
+                            <p><span>size</span></p>
+                            <select asp-items="Model.Sizes" class="select__size" id="ddlSizeId"></select>
+                        </div>
+                        <div class="sin__desc align--left">
+                            <p><span>Quantity</span></p>
+                            <input class="pro__quantity" id="txtQuantity" type="number" value="1" />
+                        </div>
+
+                        @if (Model.Categories.Count > 0)
+                        {
+                            <div class="sin__desc align--left">
+                                <p><span>Categories:</span></p>
+                                <ul class="pro__cat__list">
+                                    @foreach (var cat in Model.Categories)
+                                    {
+                                        <li><a href="/@(category.SeoAlias)-c.@(category.Id).html">@cat.Name,</a></li>
+
+                                    }
+                                </ul>
+                            </div>
+                        }
+                        @if (Model.Tags.Count > 0)
+                        {
+                            <div class="sin__desc align--left">
+
+                                <p><span>Product tags:</span></p>
+                                <ul class="pro__cat__list">
+                                    @foreach (var tag in Model.Tags)
+                                    {
+                                        <li><a href="/tag.@(tag.Id).html">@tag.Name,</a></li>
+                                    }
+                                </ul>
+                            </div>
+                        }
+
+                        <div class="sin__desc product__share__link">
+                            <p><span>Share this:</span></p>
+                            <ul class="pro__share">
+                                <li><a href="#" target="_blank"><i class="icon-social-twitter icons"></i></a></li>
+
+                                <li><a href="#" target="_blank"><i class="icon-social-instagram icons"></i></a></li>
+
+                                <li><a href="https://www.facebook.com/" target="_blank"><i class="icon-social-facebook icons"></i></a></li>
+
+                                <li><a href="#" target="_blank"><i class="icon-social-google icons"></i></a></li>
+
+                                <li><a href="#" target="_blank"><i class="icon-social-linkedin icons"></i></a></li>
+
+                                <li><a href="#" target="_blank"><i class="icon-social-pinterest icons"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- End Product Details Top -->
+</section>
+<!-- End Product Details Area -->
+<!-- Start Product Description -->
+<section class="htc__produc__decription bg__white">
+    <div class="container">
+        <div class="row">
+            <div class="col-xs-12">
+                <!-- Start List And Grid View -->
+                <ul class="pro__details__tab" role="tablist">
+                    <li role="presentation" class="description active"><a href="#description" role="tab" data-toggle="tab">Product introduction</a></li>
+                    <li role="presentation" class="review"><a href="#review" role="tab" data-toggle="tab">review</a></li>
+                </ul>
+                <!-- End List And Grid View -->
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-12">
+                <div class="ht__pro__details__content">
+                    <!-- Start Single Content -->
+                    <div role="tabpanel" id="description" class="pro__single__content tab-pane fade in active">
+                        <div class="pro__tab__content__inner">
+                            @if (string.IsNullOrEmpty(product.Content))
+                            {
+                                <p>This product has no content</p>
+                            }
+                            else
+                            {
+                                <p>@product.Content</p>
+                            }
+                        </div>
+                    </div>
+                    <!-- End Single Content -->
+                    <!-- Start Single Content -->
+                    <div role="tabpanel" id="review" class="pro__single__content tab-pane fade">
+                        <div class="pro__tab__content__inner">
+                            @if (Model.Ratings.Count > 0)
+                            {
+                                <p>@Model.Ratings.FirstOrDefault().Feedback</p>
+                            }
+                            else
+                            {
+                                <p>There are no reviews yet</p>
+                            }
+                        </div>
+                        <!-- End Single Content -->
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+<!-- End Product Description -->
+@if (Model.RelatedProducts.Count > 0)
+{
+    <!-- Start Product Area -->
+    <section class="htc__product__area--2 pb--100 product-details-res">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="section__title--2 text-center">
+                        <h2 class="title__line">Product Related</h2>
+                        <p>you may be interested</p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="product__wrap clearfix">
+                    @foreach (var relatedProduct in Model.RelatedProducts)
+                    {
+                        string url = "/" + relatedProduct.SeoAlias + "-p." + relatedProduct.Id + ".html";
+                        <!-- Start Single Product -->
+                        <div class="col-md-3 col-lg-3 col-sm-6 col-xs-12">
+                            <div class="category">
+                                <div class="ht__cat__thumb">
+                                    <a title="@relatedProduct.Name" href="@url">
+                                        <img src="@relatedProduct.Image" alt="@relatedProduct.Name" onerror="this.src = '/client-side/images/product/1.jpg'; this.onerror = null;">
+                                    </a>
+                                </div>
+                                <div class="fr__hover__info">
+                                    <ul class="product__action">
+                                        <li>
+                                            <button class="btnAddToWishList" data-id="@relatedProduct.Id" type="button">
+                                                <i class="icon-heart icons"></i>
+                                            </button>
+                                        </li>
+                                    </ul>
+                                </div>
+                                <div class="fr__product__inner">
+                                    <h4><a title="@relatedProduct.Name" href="@url">@relatedProduct.Name</a></h4>
+                                    <ul class="fr__pro__prize">
+                                        <li class="old__prize">@relatedProduct.OriginalPrice.ToString("N0")</li>
+                                        <li>@relatedProduct.Price.ToString("N0")</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- End Single Product -->
+                    }
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- End Product Area -->
+}
+@await Component.InvokeAsync("Brand")

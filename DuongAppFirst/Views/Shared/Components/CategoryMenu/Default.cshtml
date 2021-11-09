@@ -1,0 +1,32 @@
+﻿@using DuongAppFirst.Application.ViewModels.Product
+@model List<ProductCategoryViewModel>
+    <!-- Start Category Area -->
+<div class="htc__category">
+    <h4 class="title__line--4">categories</h4>
+    <ul class="ht__cat__list">
+        @foreach (var item in Model.Where(x => x.ParentId == null))
+        {
+            if (Model.Any(x => x.ParentId == item.Id))
+            {
+                <li>
+                    <a href="/@item.SeoAlias-c.@(item.Id).html">@item.Name</a>
+                    <div class="htc__category-sub">
+                        <ul ht__cat__list-sub">
+                            @foreach (var subItem in Model.Where(x => x.ParentId == item.Id))
+                            {
+                                <li><a href="/@subItem.SeoAlias-c.@(subItem.Id).html"><span>@subItem.Name</span></a></li>
+                            }
+                        </ul>
+                    </div>
+                </li>
+
+            }
+            else
+            {
+                <li class="nosub"><a href="/@item.SeoAlias-c.@(item.Id).html">@item.Name</a></li>
+            }
+
+        }
+    </ul>
+</div>
+    <!-- End Category Area -->
