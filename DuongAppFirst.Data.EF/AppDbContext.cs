@@ -6,8 +6,11 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.ChangeTracking;
+using Microsoft.EntityFrameworkCore.Design;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 
@@ -36,7 +39,7 @@ namespace DuongAppFirst.Data.EF
         public DbSet<Footer> Footers { get; set; }
         public DbSet<Function> Functions { get; set; }
         public DbSet<Page> Pages { get; set; }
-        public DbSet<ProductCategory> ProductCategorys { get; set; }
+        public DbSet<ProductCategory> ProductCategories { get; set; }
         public DbSet<ProductImage> ProductImages { get; set; }
         public DbSet<ProductQuantity> ProductQuantitys { get; set; }
         public DbSet<ProductTag> ProductTags { get; set; }
@@ -45,16 +48,18 @@ namespace DuongAppFirst.Data.EF
         public DbSet<SystemConfig> SystemConfigs { get; set; }
         public DbSet<Tag> Tags { get; set; }
         public DbSet<WholePrice> WholePrices { get; set; }
-        public DbSet<Permision> Permisions { get; set; }
+        public DbSet<Permission> Permisions { get; set; }
+        public DbSet<WishList> WishLists { get; set; }
+        public DbSet<WishListDetail> WishListDetails { get; set; }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
             #region IdentityConfig
-            builder.Entity<IdentityUserClaim<string>>().ToTable("AppUserClaims").HasKey(x => x.Id);
-            builder.Entity<IdentityRoleClaim<string>>().ToTable("AppRoleClaims").HasKey(x => x.Id);
-            builder.Entity<IdentityUserLogin<string>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
-            builder.Entity<IdentityUserRole<string>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId } );
-            builder.Entity<IdentityUserToken<string>>().ToTable("AppUserTokens").HasKey(x => new { x.UserId });
+            builder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims").HasKey(x => x.Id);
+            builder.Entity<IdentityRoleClaim<Guid>>().ToTable("AppRoleClaims").HasKey(x => x.Id);
+            builder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
+            builder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId } );
+            builder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => new { x.UserId });
             #endregion IdentityConfig
             builder.AddConfiguration(new TagConfiguration());
             builder.AddConfiguration(new BlogTagConfiguration());
@@ -66,7 +71,7 @@ namespace DuongAppFirst.Data.EF
             builder.AddConfiguration(new AdvertisementPositionConfiguration());
             builder.AddConfiguration(new FunctionConfiguration());
 
-            base.OnModelCreating(builder);
+            //base.OnModelCreating(builder);
         }
 
         public override int SaveChanges()
@@ -85,6 +90,19 @@ namespace DuongAppFirst.Data.EF
                 }
             }
             return base.SaveChanges();
+        }
+    }
+    public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<AppDbContext>
+    {
+        public AppDbContext CreateDbContext(string[] args)
+        {
+            IConfiguration configuration = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json").Build();
+            var builder = new DbContextOptionsBuilder<AppDbContext>();
+            var connectionString = configuration.GetConnectionString("DefaultConnection");
+            builder.UseSqlServer(connectionString);
+            return new AppDbContext(builder.Options);
         }
     }
 }

@@ -1,0 +1,100 @@
+﻿@model LoginViewModel
+@inject SignInManager<AppUser> SignInManager
+
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/client-side/css/login/login.css">
+</head>
+<body>
+    <!--main container-->
+    <div class="container-fluid px-1 px-md-5 px-lg-1 px-xl-5 py-5 mx-auto">
+        <div class="border-0">
+            <div class="row d-flex">
+                <div class="col-lg-6">
+                    <div class="card1 pb-5">
+                        <div class="row"> <img src="~/client-side/css/login/images/e-commerce.jpg" class="logo"> </div>
+                        <div class="row px-3 justify-content-center mt-4 mb-5 border-line"> <img src="~/client-side/css/login/images/main-image.png" class="image"> </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="card2 card border-0 px-4 py-5">
+                        <div class="row mb-4 px-3">
+                            <h6 class="d-flex align-items-center mb-0 mr-4 ">Sign in with</h6>
+                            @{
+                                var loginProviders = (await SignInManager.GetExternalAuthenticationSchemesAsync()).ToList();
+                                if (loginProviders.Count == 0)
+                                {
+                                    <div>
+                                        <p>
+                                            There are no external authentication services configured. See <a href="https://go.microsoft.com/fwlink/?LinkID=532715">this article</a>
+                                            for details on setting up this ASP.NET application to support logging in via external services.
+                                        </p>
+                                    </div>
+                                }
+                                else
+                                {
+                                    <form asp-action="ExternalLogin" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post" class="form-horizontal">
+                                        <div>
+                                            <p>
+                                                @foreach (var provider in loginProviders)
+                                                {
+                                                    var providerName = provider.Name.ToLower();
+                                                    <div class="@providerName text-center mr-3">
+                                                        <button type="submit" class="border-0 fa fa-@providerName @providerName-btn" name="provider" value="@provider.Name" title="Log in using your @provider.DisplayName account"></button>
+                                                     </div>
+                                                 }
+                                                </p>
+                                        </div>
+                                    </form>
+                                }
+                            }
+                        </div>
+                        <div class="row px-3 mb-4">
+                            <div class="line"></div> <small class="or text-center">Or</small>
+                            <div class="line"></div>
+                        </div>
+
+                        <form asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="row px-3">
+                                <label class="mb-1"><h6 class="mb-0 text-sm">Email Address</h6></label>
+                                <input asp-for="Email" class="mb-4" type="text" name="email" placeholder="Enter a valid email address">
+                            </div>
+                            <div class="row px-3">
+                                <label class="mb-1"><h6 class="mb-0 text-sm">Password</h6></label>
+                                <input asp-for="Password" type="password" name="password" placeholder="Enter password">
+                            </div>
+                            <div class="row px-3 mb-4">
+                                <div class="custom-control custom-checkbox custom-control-inline"> <input asp-for="RememberMe" class="custom-control-input"> <label asp-for="RememberMe" class="custom-control-label text-sm">Remember me</label> </div> <a asp-action="ForgotPassword" class="ml-auto mb-0 text-sm">Forgot Password?</a>
+                            </div>
+                            <div class="row mb-3 px-3"> <button type="submit" class="btn btn-blue text-center">Login</button> </div>
+                        </form>
+
+                        <div class="row mb-4 px-3"> <small class="font-weight-bold">Don't have an account? <a class="text-danger" href="/register.html">Register</a></small> </div>
+                    </div>
+                </div>
+            </div>
+            <div class="py-4">
+                <div class="row px-3">
+                    <small class="ml-4 ml-sm-5 mb-2">Copyright &copy; @DateTime.Now.Year. All rights reserved.</small>
+                    <div class="social-contact ml-4 ml-sm-auto"> <span class="fa fa-facebook mr-4 text-sm"></span> <span class="fa fa-google-plus mr-4 text-sm"></span> <span class="fa fa-linkedin mr-4 text-sm"></span> <span class="fa fa-twitter mr-4 mr-sm-5 text-sm"></span> </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--end main container-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.bundle.min.js"></script>
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+</body>
+</html>

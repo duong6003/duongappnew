@@ -9,6 +9,22 @@ namespace DuongAppFirst.Data.Entities
     [Table("Contacts")]
     public class Contact : DomainEntity<string>, ISwitchable
     {
+        public Contact() { }
+
+        public Contact(string id, string name, string phone, string email,
+            string website, string address, string other, double? longtitude, double? latitude, Status status)
+        {
+            Id = id;
+            Name = name;
+            Phone = phone;
+            Email = email;
+            Website = website;
+            Address = address;
+            Other = other;
+            Longitude = longtitude;
+            Latitude = latitude;
+            Status = status;
+        }
         [Required]
         [StringLength(250)]
         public string Name { get; set; }
@@ -25,7 +41,7 @@ namespace DuongAppFirst.Data.Entities
         [StringLength(250)]
         public string Address { get; set; }
 
-        public string Order { get; set; }
+        public string Other { get; set; }
         public double? Latitude { get; set; }
         public double? Longitude { get; set; }
         public Status Status { get; set; }

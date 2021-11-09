@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace DuongAppFirst.Data.IRepositories
+namespace DuongAppFirst.Infrastructure.Interfaces
 {
     public interface IUnitOfWork : IDisposable
     {

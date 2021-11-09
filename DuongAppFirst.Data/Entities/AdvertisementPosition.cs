@@ -8,7 +8,6 @@ namespace DuongAppFirst.Data.Entities
     [Table("AdvertisementPositions")]
     public class AdvertisementPosition : DomainEntity<string>
     {
-        [StringLength(255)]
         public string PageId { get; set; }
 
         [StringLength(255)]

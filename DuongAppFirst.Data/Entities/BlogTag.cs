@@ -10,7 +10,7 @@ namespace DuongAppFirst.Data.Entities
         public int BlogId { get; set; }
 
         [StringLength(50)]
-        [Column(TypeName = "varchar")]
+        [Column(TypeName = "varchar(50)")]
         public string TagId { get; set; }
 
         [ForeignKey("BlogId")]

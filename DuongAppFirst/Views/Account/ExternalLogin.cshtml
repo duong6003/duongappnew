@@ -1,0 +1,97 @@
+﻿@model ExternalLoginViewModel
+@{
+    ViewData["Title"] = "Register";
+}
+<!-- Start Bradcaump area -->
+<div class="container mt--20">
+    <div class="ht__bradcaump__area border">
+        <div class="ht__bradcaump__wrap">
+            <div class="container">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <div class="bradcaump__inner">
+                            <nav class="bradcaump-inner">
+                                <a class="breadcrumb-item" href="/">Home</a>
+                                <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
+                                <span class="breadcrumb-item active">Associate your @ViewData["LoginProvider"] account.</span>
+                            </nav>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Bradcaump area -->
+<!-- Main Container -->
+<section class="main-container col1-layout">
+    <div class="main container">
+        <div class="page-content">
+            <div class="account-login">
+                <div class="col-md-3 col-sm-2"></div>
+                <div class="col-md-6 col-sm-8">
+                    <p class="text-info">
+                        You've successfully authenticated with <strong>@ViewData["LoginProvider"]</strong>.
+                        Please enter an email address for this site below and click the Register button to finish
+                        logging in.
+                    </p>
+                    <div class="single-input p-bottom50 mt-3 clearfix">
+                        <form asp-action="ExternalLoginConfirmation" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                            <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="col-sm-6">
+                                <label asp-for="FullName"></label>
+                                <div class="input-text">
+                                    <input type="text" asp-for="FullName" name="fullName" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label asp-for="Email"></label>
+                                <div class="input-text">
+                                    <input type="text" asp-for="Email" name="email" class="form-control">
+                                    <span class="text-danger" asp-validation-for="Email"></span>
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Day of birth:</label>
+                                <div class="input-text">
+                                    <input type="date" asp-for="DOB" name="dob" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-6">
+                                <label>Phone Number:</label>
+                                <div class="input-text">
+                                    <input type="text" name="phoneNumber" asp-for="PhoneNumber" class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-sm-12">
+                                <label>Address:</label>
+                                <div class="input-text">
+                                    <input type="text" name="address" asp-for="Address" class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="col-sm-6">
+                                <div class="col-md-offset-2 col-md-10">
+                                    <recaptcha />
+                                    <span class="text-danger" id="recaptchaErrorMessage"></span>
+                                </div>
+                            </div>
+                            <div class="col-xs-12">
+                                <div class="submit-text">
+                                    <button type="submit" class="btn btn-primary"><i class="fa fa-user"></i>&nbsp; <span>Register</span></button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<!-- Main Container End -->
+@section Scripts {
+    @await Html.PartialAsync("_ValidationScriptsPartial")
+    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <recaptcha-script validation-message-element-id="recaptchaErrorMessage" />
+}

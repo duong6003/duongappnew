@@ -1,0 +1,146 @@
+﻿
+@{
+    ViewData["Title"] = "Cart";
+}
+@section Scripts {
+    <script src="~/lib/mustache/mustache.js"></script>
+    <script src="~/client-app/controllers/cart/index.js" asp-append-version="true"></script>
+    <script>
+        var cartObj = new CartController();
+        cartObj.initialize();
+    </script>
+}
+<!-- Start Bradcaump area -->
+<div class="ht__bradcaump__area" style="background: rgba(0, 0, 0, 0) url(client-side/images/bg/4.jpg) no-repeat scroll center center / cover ;">
+    <div class="ht__bradcaump__wrap">
+        <div class="container">
+            <div class="row">
+                <div class="col-xs-12">
+                    <div class="bradcaump__inner">
+                        <nav class="bradcaump-inner">
+                            <a class="breadcrumb-item" href="/">Home</a>
+                            <span class="brd-separetor"><i class="zmdi zmdi-chevron-right"></i></span>
+                            <span class="breadcrumb-item active">Shopping cart</span>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- End Bradcaump area -->
+<!-- cart-main-area start -->
+<div class="cart-main-area ptb--100 bg__white">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12 col-sm-12 col-xs-12">
+                <form action="#">
+                    <div class="table-content table-responsive">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th class="product-thumbnail">products</th>
+                                    <th class="product-name">name of products</th>
+                                    <th class="product-price">Price</th>
+                                    <th class="product-quantity">Quantity</th>
+                                    <th class="product-classify"></th>
+                                    <th class="product-subtotal">Total</th>
+                                    <th class="product-remove">Remove</th>
+                                </tr>
+                            </thead>
+                            <tbody id="table-cart-content"></tbody>
+                        </table>
+                        <script id="template-cart" type="x-tmpl-mustache">
+                            <tr>
+                                <td class="product-thumbnail"><a href="{{Url}}"><img src={{Image}} alt="{{ProductName}}" /></a></td>
+                                <td class="product-name">
+                                    <a href="#">{{ProductName}}</a>
+                                </td>
+                                <td class="product-price">
+                                    <ul class="pro__prize">
+                                        <li class="old__prize">{{OldPrice}}</li>
+                                        <li>{{Price}}</li>
+                                    </ul></td>
+                                <td class="product-quantity"><input class="txtQuantity" type="number"  data-id="{{ProductId}}" value="{{Quantity}}" /></td>
+                                <td class="product-classify">
+                                    <span class="classify" data-id="{{ProductId}}">Classify: <button class="classify-btn"></button></span>
+                                                <div class="classify-wrap classify-wrap-{{ProductId}}">
+                                                    <div class="classify-content">
+                                                        <div class="classify-content-size">
+                                                            <div class="classify-content-tittle">Size</div>
+                                                            {{{Sizes}}}
+                                                        </div>
+                                                        <div class="classify-content-color">
+                                                            <div class="classify-content-tittle">Color</div>
+                                                            {{{Colors}}}
+                                                        </div>
+                                                        <div class="classify-content-footer">
+                                                            <button class="cancel-btn">Back</button>
+                                                            <button class="confirm-btn">Confirm</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                </td>
+                                <td class="product-subtotal">{{Amount}}</td>
+                                <td class="product-remove"><button data-id="{{ProductId}}" class="btnDelete" type="button"><i class="icon-trash icons"></i></button></td>
+                            </tr>
+                        </script>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-12 col-sm-12 col-xs-12">
+                            <div class="buttons-cart--inner">
+                                <div class="buttons-cart">
+                                    <button id="btnClearAll" type="button">Clear Cart</button>
+                                    <a href="/product.html">Continue Shopping</a>
+                                </div>
+                                <div class="buttons-cart checkout--btn">
+                                    <a href="/checkout.html">checkout</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6 col-sm-12 col-xs-12">
+                            <div class="ht__coupon__code">
+                                <span>discount code</span>
+                                <div class="coupon__box">
+                                    <input class="txtCoupon" type="text" placeholder="enter your discount code...">
+                                    <div class="ht__cp__btn">
+                                        <button>enter</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 col-sm-12 col-xs-12 smt-40 xmt-40">
+                            <div class="htc__cart__total">
+                                <h6>cart total</h6>
+                                <div class="cart__desk__list">
+                                    <ul class="cart__desc">
+                                        <li>cart total</li>
+                                        <li>tax</li>
+                                        <li>shipping</li>
+                                    </ul>
+                                    <ul class="cart__price">
+                                        <li id="lblTotalAmount"></li>
+                                        <li>$9.00</li>
+                                        <li>0</li>
+                                    </ul>
+                                </div>
+                                <div class="cart__total">
+                                    <span>order total</span>
+                                    <span>$918.00</span>
+                                </div>
+                                <ul class="payment__btn">
+                                    <li class="active"><a href="#">payment</a></li>
+                                    <li><a href="/">continue shopping</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- cart-main-area end -->
+@Component.InvokeAsync("Brand")
