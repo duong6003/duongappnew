@@ -10,6 +10,7 @@ namespace DuongAppFirst.Models.AccountViewModels
     public class LoginViewModel
     {
         [Required(ErrorMessage = "Required")]
+        [Display(Name = "Email")]
         public string Email { get; set; }
 
         [Required(ErrorMessage = "Required")]

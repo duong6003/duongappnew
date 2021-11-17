@@ -4,7 +4,6 @@ using DuongAppFirst.Application.Dapper.Interfaces;
 using DuongAppFirst.Application.Implementations;
 using DuongAppFirst.Application.Interfaces;
 using DuongAppFirst.Authorization;
-using DuongAppFirst.Data;
 using DuongAppFirst.Data.EF;
 using DuongAppFirst.Data.EF.Repositories;
 using DuongAppFirst.Data.Entities;
@@ -12,22 +11,26 @@ using DuongAppFirst.Data.IRepositories;
 using DuongAppFirst.Extensions;
 using DuongAppFirst.Helpers;
 using DuongAppFirst.Infrastructure.Interfaces;
-using DuongAppFirst.Models;
 using DuongAppFirst.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
+using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Newtonsoft.Json.Serialization;
 using PaulMiami.AspNetCore.Mvc.Recaptcha;
 using System;
+using System.Collections.Generic;
+using System.Globalization;
 
 namespace DuongAppFirst
 {
@@ -51,8 +54,13 @@ namespace DuongAppFirst
             });
 
             services.AddDbContext<AppDbContext>(options =>
-               options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
-               o => o.MigrationsAssembly("DuongAppFirst.Data.EF")));
+            {
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection"),
+                o => o.MigrationsAssembly("DuongAppFirst.Data.EF"));
+                options.EnableSensitiveDataLogging();
+            });
+
+            services.AddDatabaseDeveloperPageExceptionFilter();
 
             services.AddIdentity<AppUser, AppRole>()
                 .AddEntityFrameworkStores<AppDbContext>()
@@ -102,7 +110,8 @@ namespace DuongAppFirst
                     facebookOpts.AppId = Configuration["Authentication:Facebook:AppId"];
                     facebookOpts.AppSecret = Configuration["Authentication:Facebook:AppSecret"];
                 })
-                .AddGoogle(googleOpts => {
+                .AddGoogle(googleOpts =>
+                {
                     googleOpts.ClientId = Configuration["Authentication:Google:ClientId"];
                     googleOpts.ClientSecret = Configuration["Authentication:Google:ClientSecret"];
                 });
@@ -118,38 +127,52 @@ namespace DuongAppFirst
 
             services.AddTransient<DbInitializer>();
             services.AddScoped<IUserClaimsPrincipalFactory<AppUser>, CustomClaimsPrincipalFactory>();
-            services.AddMvc(options =>
+            services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
             {
-                options.CacheProfiles.Add("Default",
-                    new CacheProfile()
-                    {
-                        Duration = 60
-                    });
-                options.CacheProfiles.Add("Never",
-                    new CacheProfile()
-                    {
-                        Location = ResponseCacheLocation.None,
-                        NoStore = true
-                    });
-            })
-                .AddJsonOptions(options=> options.SerializerSettings.ContractResolver = new DefaultContractResolver()).SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
+                // Use the default property (Pascal) casing
+                options.SerializerSettings.ContractResolver = new DefaultContractResolver();
+            }).AddViewLocalization(
+                    LanguageViewLocationExpanderFormat.Suffix,
+                    opts => { opts.ResourcesPath = "Resources"; })
+                .AddDataAnnotationsLocalization(); 
+
+            services.AddRazorPages().AddRazorRuntimeCompilation();
+
+            services.AddAuthorizationCore(options =>
+            {
+                options.DefaultPolicy = new AuthorizationPolicyBuilder()
+                  .RequireAuthenticatedUser()
+                  .Build();
+            });
+            services.AddLocalization(opts => { opts.ResourcesPath = "Resources"; });
+
+            services.AddCors(options => options.AddPolicy("CorsPolicy",
+                builder =>
+                {
+                    builder.AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .WithOrigins("http://localhost:5001");
+                }));
+            services.AddHealthChecks();
+            services.Configure<RequestLocalizationOptions>(
+              opts =>
+              {
+                  var supportedCultures = new List<CultureInfo>
+                  {
+                        new CultureInfo("en-US"),
+                        new CultureInfo("vi-VN")
+                  };
+
+                  opts.DefaultRequestCulture = new RequestCulture("en-US");
+                  // Formatting numbers, dates, etc.
+                  opts.SupportedCultures = supportedCultures;
+                  // UI strings that we have localized.
+                  opts.SupportedUICultures = supportedCultures;
+              });
+
             services.AddTransient(typeof(IUnitOfWork), typeof(EFUnitOfWork));
             services.AddTransient(typeof(IRepository<,>), typeof(EFRepository<,>));
-
-            //Repositories
-            services.AddTransient<IProductCategoryRepository, ProductCategoryRepository>();
-            services.AddTransient<IFunctionRepository, FunctionRepository>();
-            services.AddTransient<IProductRepository, ProductRepository>();
-            services.AddTransient<ITagRepository, TagRepository>();
-            services.AddTransient<IProductTagRepository, ProductTagRepository>();
-            services.AddTransient<IPermissionRepository, PermissionRepository>();
-            services.AddTransient<IBillRepository, BillRepository>();
-            services.AddTransient<IBillDetailRepository, BillDetailRepository>();
-            services.AddTransient<IColorRepository, ColorRepository>();
-            services.AddTransient<ISizeRepository, SizeRepository>();
-            services.AddTransient<IProductQuantityRepository, ProductQuantityRepository>();
-            services.AddTransient<IProductImageRepository, ProductImageRepository>();
-            services.AddTransient<IWholePriceRepository, WholePriceRepository>();
 
             //Services
             services.AddTransient<IProductCategoryService, ProductCategoryService>();
@@ -170,39 +193,45 @@ namespace DuongAppFirst
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerFactory loggerFactory)
         {
             loggerFactory.AddFile("Logs/duong-{Date}.txt");
 
-            if (env.IsDevelopment())
+            if (env.EnvironmentName == "Development")
             {
                 app.UseDeveloperExceptionPage();
-                app.UseDatabaseErrorPage();
+                app.UseMigrationsEndPoint();
             }
             else
             {
                 app.UseExceptionHandler("/Home/Error");
                 app.UseHsts();
             }
+            app.UseStaticFiles();
 
             app.UseImageResizer();
-            app.UseStaticFiles();
             app.UseMinResponse();
             app.UseHttpsRedirection();
             app.UseCookiePolicy();
 
             app.UseSession();
+            var options = app.ApplicationServices.GetService<IOptions<RequestLocalizationOptions>>();
+            app.UseRequestLocalization(options.Value);
+
+            app.UseCors("CorsPolicy");
+
+            app.UseRouting();
 
             app.UseAuthentication();
+            app.UseAuthorization();
 
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-
-                routes.MapRoute(name: "areaRoute",
-                    template: "{area:exists}/{Controller=Login}/{action=Index}/{id?}");
+            app.UseEndpoints(endpoints => {
+                //endpoints.MapHub<ChatHub>("/chat");
+                endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
+                endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Login}/{action=Index}/{id?}");
+                //endpoints.MapAreaControllerRoute("admin", "Admin", "Admin/{controller=Login}/{action=Index}/{id?}").RequireAuthorization();
+                endpoints.MapHealthChecks("/health").RequireAuthorization(new AuthorizeAttribute() { Roles = "admin", });
+                endpoints.MapRazorPages();
             });
         }
     }

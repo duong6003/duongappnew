@@ -6,250 +6,252 @@
 ---------------------------------------------------------------*/
 
 /* ----------------------------------------------------
-	You can put your custom css code here: 
+	You can put your custom css code here:
 -------------------------------------------------------*/
 .product__big__images:hover .product__action li:nth-child(1) {
-	-webkit-animation: 300ms ease-in-out 0s normal none 1 running fadeInRight;
-	animation: 300ms ease-in-out 0s normal none 1 running fadeInRight;
-	opacity: 1;
-	transition: opacity 300ms linear 0s;
+    -webkit-animation: 300ms ease-in-out 0s normal none 1 running fadeInRight;
+    animation: 300ms ease-in-out 0s normal none 1 running fadeInRight;
+    opacity: 1;
+    transition: opacity 300ms linear 0s;
 }
 
 .product__big__images:hover .product__action li:nth-child(2) {
-	-webkit-animation: 500ms ease-in-out 0s normal none 1 running fadeInRight;
-	animation: 500ms ease-in-out 0s normal none 1 running fadeInRight;
-	opacity: 1;
-	transition: opacity 500ms linear 0s;
+    -webkit-animation: 500ms ease-in-out 0s normal none 1 running fadeInRight;
+    animation: 500ms ease-in-out 0s normal none 1 running fadeInRight;
+    opacity: 1;
+    transition: opacity 500ms linear 0s;
 }
 
 .product__big__images:hover .product__action li:nth-child(3) {
-	-webkit-animation: 700ms ease-in-out 0s normal none 1 running fadeInRight;
-	animation: 700ms ease-in-out 0s normal none 1 running fadeInRight;
-	opacity: 1;
-	transition: opacity 700ms linear 0s;
+    -webkit-animation: 700ms ease-in-out 0s normal none 1 running fadeInRight;
+    animation: 700ms ease-in-out 0s normal none 1 running fadeInRight;
+    opacity: 1;
+    transition: opacity 700ms linear 0s;
 }
+
 .product__action--dft li button {
-	background: #f6f6f6 none repeat scroll 0 0;
-	color: #313131;
-	display: inline-block;
-	font-size: 18px;
-	height: 50px;
-	line-height: 53px;
-	text-align: center;
-	transition: all 0.3s ease 0s;
-	width: 50px;
+    background: #f6f6f6 none repeat scroll 0 0;
+    color: #313131;
+    display: inline-block;
+    font-size: 18px;
+    height: 50px;
+    line-height: 53px;
+    text-align: center;
+    transition: all 0.3s ease 0s;
+    width: 50px;
 }
 /* button cart */
 .buttons-cart button {
-	background: #ebebeb none repeat scroll 0 0;
-	color: #3f3f3f;
-	font-family: 'Poppins', sans-serif;
-	font-size: 12px;
-	font-weight: 500;
-	height: 62px;
-	line-height: 62px;
-	padding: 0 45px;
-	border: none;
-	text-transform: uppercase;
-	display: inline-block;
+    background: #ebebeb none repeat scroll 0 0;
+    color: #3f3f3f;
+    font-family: 'Poppins', sans-serif;
+    font-size: 12px;
+    font-weight: 500;
+    height: 62px;
+    line-height: 62px;
+    padding: 0 45px;
+    border: none;
+    text-transform: uppercase;
+    display: inline-block;
 }
 
-	.buttons-cart input:hover,
-	.coupon input[type=submit]:hover,
-	.buttons-cart button:hover {
-		background: #212121;
-		color: #fff !important;
-	}
+    .buttons-cart input:hover,
+    .coupon input[type=submit]:hover,
+    .buttons-cart button:hover {
+        background: #212121;
+        color: #fff !important;
+    }
 
 /* coupon */
 .ht__cp__btn button {
-	background: #212121 none repeat scroll 0 0;
-	color: #fff;
-	display: inline-block;
-	font-family: 'Poppins', sans-serif;
-	font-size: 14px;
-	font-weight: 500;
-	height: 56px;
-	line-height: 56px;
-	border: none;
-	padding: 0 27px;
-	text-transform: uppercase;
-	transition: all 0.4s ease 0s;
+    background: #212121 none repeat scroll 0 0;
+    color: #fff;
+    display: inline-block;
+    font-family: 'Poppins', sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    height: 56px;
+    line-height: 56px;
+    border: none;
+    padding: 0 27px;
+    text-transform: uppercase;
+    transition: all 0.4s ease 0s;
 }
 
-	.ht__cp__btn button:hover {
-		background: #c43b68 none repeat scroll 0 0;
-	}
+    .ht__cp__btn button:hover {
+        background: #c43b68 none repeat scroll 0 0;
+    }
+
 .coupon__box input:focus {
-	background: #ffffff none repeat scroll 0 0;
-	border: 1px solid red;
-	height: 56px;
-	padding: 0 30px;
+    background: #ffffff none repeat scroll 0 0;
+    border: 1px solid red;
+    height: 56px;
+    padding: 0 30px;
 }
 /* product quantity */
 .pro__quantity {
-	height: 22px;
-	width: 41px;
-	margin-left: 10px;
+    height: 22px;
+    width: 41px;
+    margin-left: 10px;
 }
 /* table cart*/
 
 .table-content table td.product-classify {
-	color: #313131;
-	font-size: 14px;
-	font-family: 'Poppins', sans-serif;
-	font-weight: 600;
-	font-weight: 600;
+    color: #313131;
+    font-size: 14px;
+    font-family: 'Poppins', sans-serif;
+    font-weight: 600;
+    font-weight: 600;
 }
 
-	.table-content table td.product-classify .classify-btn {
-		border-left: 4px solid transparent;
-		border-right: 4px solid transparent;
-		background: none;
-		top: 0;
-		right: 0;
-		padding: 0;
-		border-top: 5px solid rgba(0,0,0,.54);
-		border-bottom: 0;
-		transition: -webkit-transform .1s cubic-bezier(.4,0,.6,1);
-		transition: transform .1s cubic-bezier(.4,0,.6,1);
-		transition: transform .1s cubic-bezier(.4,0,.6,1),-webkit-transform .1s cubic-bezier(.4,0,.6,1);
-		-webkit-transform: rotate(0);
-		transform: rotate(0);
-		margin: 0 0 0 10px;
-	}
+    .table-content table td.product-classify .classify-btn {
+        border-left: 4px solid transparent;
+        border-right: 4px solid transparent;
+        background: none;
+        top: 0;
+        right: 0;
+        padding: 0;
+        border-top: 5px solid rgba(0,0,0,.54);
+        border-bottom: 0;
+        transition: -webkit-transform .1s cubic-bezier(.4,0,.6,1);
+        transition: transform .1s cubic-bezier(.4,0,.6,1);
+        transition: transform .1s cubic-bezier(.4,0,.6,1),-webkit-transform .1s cubic-bezier(.4,0,.6,1);
+        -webkit-transform: rotate(0);
+        transform: rotate(0);
+        margin: 0 0 0 10px;
+    }
 
 .classify {
-	cursor: pointer;
+    cursor: pointer;
 }
 
 .show-classify {
-	display: flex !important;
+    display: flex !important;
 }
 
 .classify-wrap {
-	display: none;
-	flex-direction: column;
-	padding: 27px 25px;
-	width: 19.6875rem;
-	max-height: 28.125rem;
-	overflow-y: auto;
-	background: #fff;
-	position: absolute;
-	border: 1px solid rgba(0,0,0,.09);
-	box-shadow: 0px 1px 1px 0 #666;
-	z-index: 10;
+    display: none;
+    flex-direction: column;
+    padding: 27px 25px;
+    width: 19.6875rem;
+    max-height: 28.125rem;
+    overflow-y: auto;
+    background: #fff;
+    position: absolute;
+    border: 1px solid rgba(0,0,0,.09);
+    box-shadow: 0px 1px 1px 0 #666;
+    z-index: 10;
 }
 
 .classify-content .classify-content-tittle {
-	text-transform: capitalize;
-	color: rgba(0,0,0,.54);
-	font-size: 0.9rem;
-	font-weight: 400;
-	text-align: left;
+    text-transform: capitalize;
+    color: rgba(0,0,0,.54);
+    font-size: 0.9rem;
+    font-weight: 400;
+    text-align: left;
 }
 
 .classify-content button {
-	min-width: 70px;
+    min-width: 70px;
 }
 
 .classify-content .classify-content-footer {
-	display: flex;
-	justify-content: flex-end;
-	margin-top: 10px;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 10px;
 }
 
 .product-variation {
-	cursor: pointer;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	padding: .25rem .75rem;
-	margin: 0 8px 8px 0;
-	text-align: left;
-	font-weight: 300;
-	border-radius: 2px;
-	border: 1px solid rgba(0,0,0,.09);
-	position: relative;
-	background: #fff;
-	outline: 0;
-	word-break: break-word;
-	display: inline-flex;
-	align-items: center;
-	justify-content: center;
+    cursor: pointer;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: .25rem .75rem;
+    margin: 0 8px 8px 0;
+    text-align: left;
+    font-weight: 300;
+    border-radius: 2px;
+    border: 1px solid rgba(0,0,0,.09);
+    position: relative;
+    background: #fff;
+    outline: 0;
+    word-break: break-word;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .product-variation--selected {
-	color: #f52f2f;
-	border-color: #f52f2f;
+    color: #f52f2f;
+    border-color: #f52f2f;
 }
 
 .product-variation--disabled {
-	color: rgba(0,0,0,.26);
-	cursor: not-allowed;
+    color: rgba(0,0,0,.26);
+    cursor: not-allowed;
 }
 
 .classify-content .cancel-btn {
-	padding: 6px 0;
-	-moz-box-sizing: border-box;
-	box-sizing: border-box;
-	width: 100px;
-	text-transform: uppercase;
-	font-size: 0.775rem;
-	font-weight: 400;
-	cursor: pointer;
-	color: #555;
-	background: none;
-	border: 0;
+    padding: 6px 0;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    width: 100px;
+    text-transform: uppercase;
+    font-size: 0.775rem;
+    font-weight: 400;
+    cursor: pointer;
+    color: #555;
+    background: none;
+    border: 0;
 }
 
 .classify-content .confirm-btn {
-	width: 100px;
-	text-transform: uppercase;
-	font-size: .875rem;
-	font-weight: 500;
-	color: #f52f2f;
-	cursor: pointer;
+    width: 100px;
+    text-transform: uppercase;
+    font-size: .875rem;
+    font-weight: 500;
+    color: #f52f2f;
+    cursor: pointer;
 }
 
-	.classify-content .confirm-btn:hover {
-		background-color: #fff;
-		line-height: 1;
-		border: 1px solid #666;
-	}
+    .classify-content .confirm-btn:hover {
+        background-color: #fff;
+        line-height: 1;
+        border: 1px solid #666;
+    }
 /* checkout form btn */
 .check-out-form__btn {
-	display: flex;
-	justify-content: space-between;
-	margin-top:16px;
+    display: flex;
+    justify-content: space-between;
+    margin-top: 16px;
 }
 
-	.check-out-form__btn button {
-		display: inline-block;
-		height: 45px;
-		line-height: 45px;
-		text-align: center;
-		text-transform: uppercase;
-		color: #212121;
-		background: #f4f4f4;
-		font-family: "Poppins";
-		padding: 0 24px;
-		border: none;
-		font-weight: 600;
-		letter-spacing: 1px;
-		font-size: 16px;
-		transition: all 0.3s ease-in-out 0s;
-	}
+    .check-out-form__btn button {
+        display: inline-block;
+        height: 45px;
+        line-height: 45px;
+        text-align: center;
+        text-transform: uppercase;
+        color: #212121;
+        background: #f4f4f4;
+        font-family: "Poppins";
+        padding: 0 24px;
+        border: none;
+        font-weight: 600;
+        letter-spacing: 1px;
+        font-size: 16px;
+        transition: all 0.3s ease-in-out 0s;
+    }
 
-		.check-out-form__btn button:hover {
-			color: #b35a5a;
-		}
+        .check-out-form__btn button:hover {
+            color: #b35a5a;
+        }
 
-		.check-out-form__btn button.active {
-			background: #212121;
-			color: #fff;
-		}
+        .check-out-form__btn button.active {
+            background: #212121;
+            color: #fff;
+        }
 
-			.check-out-form__btn button.active:hover {
-				color: #b35a5a;
-				background: #f4f4f4;
-			}
+            .check-out-form__btn button.active:hover {
+                color: #b35a5a;
+                background: #f4f4f4;
+            }

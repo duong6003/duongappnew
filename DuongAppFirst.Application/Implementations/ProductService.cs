@@ -22,7 +22,7 @@ namespace DuongAppFirst.Application.Implementations
 {
     public class ProductService : IProductService
     {
-        private readonly IProductRepository _productRepository;
+        private readonly IRepository<Product, int> _productRepository;
         private readonly IRepository<Tag, string> _tagRepository;
         private readonly IRepository<ProductTag, int> _productTagRepository;
         private readonly IRepository<ProductQuantity, int> _productQuantityRepository;
@@ -31,7 +31,7 @@ namespace DuongAppFirst.Application.Implementations
         private readonly IRepository<Rating, int> _ratingRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public ProductService(IProductRepository productRepository,
+        public ProductService(IRepository<Product, int> productRepository,
             IRepository<Tag, string> tagRepository,
             IRepository<ProductTag, int> productTagRepository,
             IRepository<ProductQuantity, int> productQuantityRepository,

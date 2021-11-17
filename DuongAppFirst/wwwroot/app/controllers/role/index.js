@@ -36,7 +36,6 @@
         $("#btn-create").on('click', function () {
             resetFormMaintainance();
             $('#modal-add-edit').modal('show');
-
         });
         //Grant permission
         $('body').on('click', '.btn-grant', function () {
@@ -64,7 +63,6 @@
                     $('#txtDescription').val(data.Description);
                     $('#modal-add-edit').modal('show');
                     duong.stopLoading();
-
                 },
                 error: function (status) {
                     duong.notify('An error occurred', 'error');
@@ -106,7 +104,6 @@
                 });
                 return false;
             }
-
         });
 
         $('body').on('click', '.btn-delete', function (e) {
@@ -336,13 +333,10 @@
                     $("#lbl-total-records").text(response.RowCount);
                     if (render != undefined) {
                         $('#tbl-content').html(render);
-
                     }
                     wrapPaging(response.RowCount, function () {
                         loadData();
                     }, isPageChanged);
-
-
                 }
                 else {
                     $('#tbl-content').html('');
@@ -377,5 +371,4 @@
             }
         });
     }
-
 }

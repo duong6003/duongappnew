@@ -19,8 +19,8 @@ namespace DuongAppFirst.Areas.Admin.Controllers
     public class BillController : BaseController
     {
         private readonly IBillService _billService;
-        private readonly IHostingEnvironment _hostingEnvironment;
-        public BillController(IBillService billService, IHostingEnvironment hostingEnvironment)
+        private readonly IWebHostEnvironment _hostingEnvironment;
+        public BillController(IBillService billService, IWebHostEnvironment hostingEnvironment)
         {
             _billService = billService;
             _hostingEnvironment = hostingEnvironment;

@@ -40,7 +40,6 @@
                 success: function (path) {
                     $('#txtImage').val(path);
                     duong.notify('Image upload successful!', 'success');
-
                 },
                 error: function () {
                     duong.notify('An error occurred while uploading the file!', 'error');
@@ -81,7 +80,6 @@
 
                     $('#modal-add-edit').modal('show');
                     duong.stopLoading();
-
                 },
                 error: function (status) {
                     duong.notify('An error occured', 'error');
@@ -172,7 +170,6 @@
                 });
             }
             return false;
-
         });
     }
     function resetFormMaintainance() {
@@ -232,7 +229,6 @@
                         parentId: item.ParentId,
                         sortOrder: item.SortOrder
                     });
-
                 });
                 var treeArr = duong.unflattern(data);
                 treeArr.sort(function (a, b) {
@@ -299,7 +295,6 @@
                         }
                     }
                 });
-
             }
         });
     }

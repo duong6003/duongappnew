@@ -21,7 +21,6 @@ namespace DuongAppFirst.Data.EF
         {
             _context.Add(entity);
         }
-
         public void Dispose()
         {
             if(_context != null)

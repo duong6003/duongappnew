@@ -36,7 +36,7 @@
             gap: 2
         });
     },
-    confirm : function (message, okCallback) {
+    confirm: function (message, okCallback) {
         bootbox.confirm({
             message: message,
             buttons: {
@@ -56,7 +56,7 @@
             }
         });
     },
-    dateFormatJson : function (datetime) {
+    dateFormatJson: function (datetime) {
         if (datetime == null || datetime == '')
             return '';
         var newdate = new Date(parseInt(datetime.substr(6)));
@@ -75,7 +75,7 @@
             mm = "0" + mm;
         return day + "/" + month + "/" + year;
     },
-    dateTimeFormatJson : function (datetime) {
+    dateTimeFormatJson: function (datetime) {
         if (datetime == null || datetime == '')
             return '';
         var newdate = new Date(parseInt(datetime.substr(6)));

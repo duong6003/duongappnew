@@ -70,7 +70,6 @@ namespace DuongAppFirst.Data.EF
             builder.AddConfiguration(new SystemConfigConfiguration());
             builder.AddConfiguration(new AdvertisementPositionConfiguration());
             builder.AddConfiguration(new FunctionConfiguration());
-
             //base.OnModelCreating(builder);
         }
 

@@ -21,7 +21,7 @@
                     size: sizeId
                 },
                 success: function () {
-                    duong.notify('Product was added successful', 'success');
+                    duong.notify(resources['AddCartOK'], 'success');
                     loadHeaderCart();
                 }
             });
@@ -45,7 +45,7 @@
                     }
                 },
                 error: function () {
-                    duong.notify('An error occurred', 'error');
+                    duong.notify(resources['Error'], 'error');
                 }
             });
         });

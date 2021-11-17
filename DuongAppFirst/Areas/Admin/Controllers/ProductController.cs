@@ -16,15 +16,16 @@ using System.Threading.Tasks;
 
 namespace DuongAppFirst.Areas.Admin.Controllers
 {
+
     public class ProductController : BaseController
     {
         private readonly IProductService _productService;
         private readonly IProductCategoryService _productCategoryService;
-        private readonly IHostingEnvironment _hostingEnvironment;
+        private readonly IWebHostEnvironment _hostingEnvironment;
 
         public ProductController(IProductService productService, 
-            IProductCategoryService productCategoryService, 
-            IHostingEnvironment hostingEnvironment)
+            IProductCategoryService productCategoryService,
+            IWebHostEnvironment hostingEnvironment)
         {
             _productService = productService;
             _productCategoryService = productCategoryService;

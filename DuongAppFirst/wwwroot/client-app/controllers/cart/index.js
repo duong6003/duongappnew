@@ -33,7 +33,7 @@
                     duong.startLoading();
                 },
                 success: function () {
-                    duong.notify('Delete product successfully', 'success');
+                    duong.notify(resources['RemoveCartOK'], 'success');
                     loadHeaderCart();
                     duong.stopLoading();
                     loadData();
@@ -55,7 +55,7 @@
                         quantity: q
                     },
                     success: function () {
-                        duong.notify('Update quantity successfully', 'success');
+                        duong.notify(resources['UpdateOK'], 'success');
                         loadHeaderCart();
                         loadData();
                     }
@@ -63,7 +63,6 @@
             } else {
                 duong.notify('Your quantity is invalid', 'error');
             }
-
         });
 
         $('body').on('change', '.ddlColorId', function (e) {
@@ -84,7 +83,7 @@
                         size: sizeId
                     },
                     success: function () {
-                        duong.notify('Update quantity successfully', 'success');
+                        duong.notify(resources['UpdateOK'], 'success');
                         loadHeaderCart();
                         loadData();
                     }
@@ -92,7 +91,6 @@
             } else {
                 duong.notify('Your quantity is invalid', 'error');
             }
-
         });
 
         $('body').on('change', '.ddlSizeId', function (e) {
@@ -112,7 +110,7 @@
                         size: sizeId
                     },
                     success: function () {
-                        duong.notify('Update quantity successfully', 'success');
+                        duong.notify(resources['UpdateOK'], 'success');
                         loadHeaderCart();
                         loadData();
                     }
@@ -120,7 +118,6 @@
             } else {
                 duong.notify('Your quantity is invalid', 'error');
             }
-
         });
         $('#btnClearAll').on('click', function (e) {
             e.preventDefault();
@@ -144,7 +141,7 @@
                 cachedObj.colors = response;
             },
             error: function () {
-                duong.notify('There is an error going on', 'error');
+                duong.notify(resources['Error'], 'error');
             }
         });
     }
@@ -158,7 +155,7 @@
                 cachedObj.sizes = response;
             },
             error: function () {
-                duong.notify('There is an error going on', 'error');
+                duong.notify(resources['Error'], 'error');
             }
         });
     }

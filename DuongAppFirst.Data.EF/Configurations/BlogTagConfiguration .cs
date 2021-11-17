@@ -11,7 +11,7 @@ namespace DuongAppFirst.Data.EF.Configurations
         {
             entity.Property(c => c.Id).HasMaxLength(50)
                                       .IsRequired()
-                                      .HasColumnType("varchar(50)");
+                                      .IsUnicode(false);
         }
     }
 }

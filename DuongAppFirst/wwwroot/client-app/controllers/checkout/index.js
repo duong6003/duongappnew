@@ -17,7 +17,7 @@
                     duong.startLoading();
                 },
                 success: function () {
-                    duong.notify('Delete product successfully', 'success');
+                    duong.notify(resources['RemoveCartOK'], 'success');
                     duong.stopLoading();
                     loadHeaderCart();
                     loadData();
