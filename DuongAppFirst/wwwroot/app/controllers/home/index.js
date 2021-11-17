@@ -5,7 +5,6 @@
     }
 
     function loadData(from, to) {
-
         $.ajax({
             type: "GET",
             url: "/Admin/Home/GetRevenue",
@@ -21,7 +20,6 @@
                 initChart(response);
 
                 duong.stopLoading();
-
             },
             error: function (status) {
                 duong.notify('An error occurred', 'error');
@@ -127,12 +125,10 @@
                         fillColor: "#fff"
                     }
                 }], chart_plot_02_settings);
-
         }
     }
 
     function initDateRangePicker() {
-
         if (typeof ($.fn.daterangepicker) === 'undefined') { return; }
         console.log('init_daterangepicker');
 
@@ -191,8 +187,6 @@
         $('#reportrange').on('apply.daterangepicker', function (ev, picker) {
             console.log("apply event fired, start/end dates are " + picker.startDate.format('MMMM D, YYYY') + " to " + picker.endDate.format('MMMM D, YYYY'));
             loadData(picker.startDate.format("MM/DD/YYYY"), picker.endDate.format('MM/DD/YYYY'));
-
-
         });
         $('#reportrange').on('cancel.daterangepicker', function (ev, picker) {
             console.log("cancel event fired");
@@ -206,6 +200,5 @@
         $('#destroy').click(function () {
             $('#reportrange').data('daterangepicker').remove();
         });
-
     }
 }

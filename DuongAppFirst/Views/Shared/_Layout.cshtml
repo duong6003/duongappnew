@@ -1,4 +1,8 @@
-﻿<!doctype html>
+﻿@using Microsoft.AspNetCore.Localization
+@{ 
+    var requestCulture = Context.Features.Get<IRequestCultureFeature>();
+}
+<!doctype html>
 <html class="no-js" lang="en">
 <head>
     <meta charset="utf-8">
@@ -65,6 +69,8 @@
     <script src="~/client-side/js/waypoints.min.js"></script>
     <!-- Main js file that contents all jQuery plugins activation. -->
     <script src="~/client-side/js/main.js"></script>
+
+    <script src="~/client-app/shared/locallize/resources.@(requestCulture.RequestCulture.Culture.Name).js"></script>
     <script src="~/client-app/shared/duongFunc.js"></script>
     <script src="~/client-app/controllers/product/manage.js" asp-append-version="true"></script>
     <script>

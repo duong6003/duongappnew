@@ -20,7 +20,7 @@ body {
     height: 100px;
     margin-top: 20px;
     margin-left: 35px;
-    border-radius:50%;
+    border-radius: 50%;
 }
 
 .image {
@@ -122,14 +122,14 @@ textarea {
     letter-spacing: 1px
 }
 
-input:focus,
-textarea:focus {
-    -moz-box-shadow: none !important;
-    -webkit-box-shadow: none !important;
-    box-shadow: none !important;
-    border: 1px solid #304FFE;
-    outline-width: 0
-}
+    input:focus,
+    textarea:focus {
+        -moz-box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        box-shadow: none !important;
+        border: 1px solid #304FFE;
+        outline-width: 0
+    }
 
 button:focus {
     -moz-box-shadow: none !important;
@@ -150,10 +150,10 @@ a {
     border-radius: 2px
 }
 
-.btn-blue:hover {
-    background-color: #000;
-    cursor: pointer
-}
+    .btn-blue:hover {
+        background-color: #000;
+        cursor: pointer
+    }
 
 .bg-blue {
     color: #fff;
@@ -185,16 +185,19 @@ button.facebook-btn {
     color: white;
     border: none;
 }
+
 button.google-btn {
     background-color: #e37979;
     color: white;
     border: none;
 }
+
 button.twitter-btn {
     background-color: #1DA1F2;
     color: white;
     border: none;
 }
+
 button.linkedin-btn {
     background-color: #2867B2;
     color: white;

@@ -57,7 +57,7 @@
                     loadData();
                 },
                 error: function () {
-                    duong.notify('An error occurred','error')
+                    duong.notify('An error occurred', 'error')
                 }
             });
         });

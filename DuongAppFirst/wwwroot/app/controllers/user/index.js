@@ -46,7 +46,6 @@
             resetFormMaintainance();
             initRoleList();
             $('#modal-add-edit').modal('show');
-
         });
 
         $('body').on('click', '.btn-edit', function (e) {
@@ -74,7 +73,6 @@
                     disableFieldEdit(true);
                     $('#modal-add-edit').modal('show');
                     duong.stopLoading();
-
                 },
                 error: function () {
                     duong.notify('An error occurred', 'error');
@@ -157,15 +155,12 @@
                 });
             });
         });
-
     };
-
 
     function disableFieldEdit(disabled) {
         $('#txtUserName').prop('disabled', disabled);
         $('#txtPassword').prop('disabled', disabled);
         $('#txtConfirmPassword').prop('disabled', disabled);
-
     }
     function resetFormMaintainance() {
         disableFieldEdit(false);
@@ -179,7 +174,6 @@
         $('#txtEmail').val('');
         $('#txtPhoneNumber').val('');
         $('#ckStatus').prop('checked', true);
-
     }
 
     function initRoleList(selectedRoles) {
@@ -239,13 +233,10 @@
                     $("#lbl-total-records").text(response.RowCount);
                     if (render !== undefined) {
                         $('#tbl-content').html(render);
-
                     }
                     wrapPaging(response.RowCount, function () {
                         loadData();
                     }, isPageChanged);
-
-
                 }
                 else {
                     $('#tbl-content').html('');

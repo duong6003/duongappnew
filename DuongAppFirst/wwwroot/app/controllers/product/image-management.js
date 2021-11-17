@@ -39,7 +39,6 @@
                     images.push(path);
                     $('#image-list').append('<div class="col-md-3"><img width="100"  data-path="' + path + '" src="' + path + '"></div>');
                     duong.notify('Upload images successfully!', 'success');
-
                 },
                 error: function () {
                     duong.notify('An error occurred while uploading files!', 'error');

@@ -19,18 +19,20 @@ namespace DuongAppFirst.Application.Implementations
     public class RoleService : IRoleService
     {
         private readonly RoleManager<AppRole> _roleManager;
-        private readonly IFunctionRepository _functionRepository;
-        private readonly IPermissionRepository _permissionRepository;
+        private readonly IRepository<Function, string> _functionRepository;
+        private readonly IRepository<Permission, int> _permissionRepository;
 
         private readonly IUnitOfWork _unitOfWork;
 
         public RoleService(RoleManager<AppRole> roleManager,
-            IUnitOfWork unitOfWork, IFunctionRepository functionRepository, IPermissionRepository permissionRepository)
+            IRepository<Function, string> functionRepository,
+            IRepository<Permission, int> permissionRepository,
+            IUnitOfWork unitOfWork)
         {
-            _unitOfWork = unitOfWork;
             _roleManager = roleManager;
             _functionRepository = functionRepository;
             _permissionRepository = permissionRepository;
+            _unitOfWork = unitOfWork;
         }
 
         public async Task<bool> AddAsync(AppRoleViewModel roleVm)

@@ -16,11 +16,11 @@ namespace DuongAppFirst.Application.Implementations
     {
         private readonly IRepository<WishList, int> _wishListRepository;
         private readonly IRepository<WishListDetail, int> _wishListDetailRepository;
-        private readonly IProductRepository _productRepository;
+        private readonly IRepository<Product, int> _productRepository;
         private readonly IUnitOfWork _unitOfWork;
 
         public WishListService(IRepository<WishList, int> wishListRepository,
-            IRepository<WishListDetail, int> wishListDetailRepository, IProductRepository productRepository, IUnitOfWork unitOfWork)
+            IRepository<WishListDetail, int> wishListDetailRepository, IRepository<Product, int> productRepository, IUnitOfWork unitOfWork)
         {
             _wishListRepository = wishListRepository;
             _wishListDetailRepository = wishListDetailRepository;

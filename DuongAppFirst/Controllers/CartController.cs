@@ -9,11 +9,11 @@ using DuongAppFirst.Utillities.Constants;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace DuongAppFirst.Controllers
 {
@@ -69,7 +69,7 @@ namespace DuongAppFirst.Controllers
         [Route("checkout.html", Name = "Checkout")]
         [ValidateAntiForgeryToken]
         [HttpPost]
-        public async Task<IActionResult> Checkout(CheckoutViewModel model)
+        public IActionResult Checkout(CheckoutViewModel model)
         {
             var session = HttpContext.Session.Get<List<ShoppingCartViewModel>>(CommonConstants.CartSession);
             if (!ModelState.IsValid)
@@ -85,7 +85,6 @@ namespace DuongAppFirst.Controllers
                     {
                         details.Add(new BillDetailViewModel()
                         {
-                            Product = item.Product,
                             Price = item.Price,
                             ColorId = item.Color.Id,
                             SizeId = item.Size.Id,
@@ -107,16 +106,15 @@ namespace DuongAppFirst.Controllers
                     {
                         billViewModel.CustomerId = Guid.Parse(User.GetSpecificClaim("UserId"));
                     }
-                    _billService.Create(billViewModel);
+                        _billService.Create(billViewModel);
                     try
                     {
-
                         _billService.Save();
-
                         //var content = await _viewRenderService.RenderToStringAsync("Cart/_BillMail", billViewModel);
                         //Send mail
                         //await _emailSender.SendEmailAsync(_configuration["MailSettings:AdminMail"], "New bill from Duong Shop", content);
                         ViewData["Success"] = true;
+                        HttpContext.Session.Remove(CommonConstants.CartSession);
                     }
                     catch (Exception ex)
                     {

@@ -35,7 +35,6 @@
             resetFormMaintainance();
             initTreeDropDownCategory();
             $('#modal-add-edit').modal('show');
-
         });
 
         $('#btnSelectImg').on('click', function () {
@@ -58,7 +57,6 @@
                 success: function (path) {
                     $('#txtImage').val(path);
                     duong.notify('Image upload successful!', 'success');
-
                 },
                 error: function () {
                     duong.notify('An error occurred while uploading the file!', 'error');
@@ -91,13 +89,13 @@
             var fileUpload = $("#fileInputExcel").get(0);
             var files = fileUpload.files;
 
-            // Create FormData object  
+            // Create FormData object
             var fileData = new FormData();
-            // Looping over all files and add it to FormData object  
+            // Looping over all files and add it to FormData object
             for (var i = 0; i < files.length; i++) {
                 fileData.append("files", files[i]);
             }
-            // Adding one more key to FormData object  
+            // Adding one more key to FormData object
             fileData.append('categoryId', $('#ddlCategoryIdImportExcel').combotree('getValue'));
             $.ajax({
                 url: '/Admin/Product/ImportExcel',
@@ -108,7 +106,6 @@
                 success: function (data) {
                     $('#modal-import-excel').modal('hide');
                     loadData();
-
                 }
             });
             return false;
@@ -151,7 +148,6 @@
                     }
                 }, this));
         };
-
     }
 
     function saveProduct(e) {
@@ -176,7 +172,7 @@
             var seoPageTitle = $('#txtSeoPageTitleM').val();
             var seoAlias = $('#txtSeoAliasM').val();
 
-            var content = CKEDITOR.instances.txtContent.getData();
+            //var content = CKEDITOR.instances.txtContent.getData();
             var status = $('#ckStatusM').prop('checked') == true ? 1 : 0;
             var hot = $('#ckHotM').prop('checked');
             var prize = $('#ckPrize').prop('checked');
@@ -194,7 +190,7 @@
                     OriginalPrice: originalPrice,
                     PromotionPrice: promotionPrice,
                     Description: description,
-                    Content: content,
+                    Content: '',
                     HomeFlag: showHome,
                     HotFlag: hot,
                     PrizeFlag: prize,
@@ -227,7 +223,7 @@
         }
     }
 
-    function deleteProduct(id)  {
+    function deleteProduct(id) {
         duong.confirm('This action cannot be undone, are you sure you want to delete ?', function () {
             $.ajax({
                 type: "POST",
@@ -280,14 +276,13 @@
                 $('#txtSeoPageTitleM').val(data.SeoPageTitle);
                 $('#txtSeoAliasM').val(data.SeoAlias);
 
-                CKEDITOR.instances.txtContent.setData(data.Content);
+                //CKEDITOR.instances.txtContent.setData(data.Content);
                 $('#ckStatusM').prop('checked', data.Status == 1);
                 $('#ckHotM').prop('checked', data.HotFlag);
                 $('#ckShowHomeM').prop('checked', data.HomeFlag);
 
                 $('#modal-add-edit').modal('show');
                 duong.stopLoading();
-
             },
             error: function (status) {
                 duong.notify('An error occurred', 'error');
@@ -347,11 +342,10 @@
         $('#txtSeoPageTitleM').val('');
         $('#txtSeoAliasM').val('');
 
-        CKEDITOR.instances.txtContentM.setData('');
+        //CKEDITOR.instances.txtContentM.setData('');
         $('#ckStatusM').prop('checked', true);
         $('#ckHotM').prop('checked', false);
         $('#ckShowHomeM').prop('checked', false);
-
     }
 
     function loadCategories() {

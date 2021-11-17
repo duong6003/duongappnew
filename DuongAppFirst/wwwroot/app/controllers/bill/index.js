@@ -102,7 +102,6 @@
                     }
                     $('#modal-detail').modal('show');
                     duong.stopLoading();
-
                 },
                 error: function (e) {
                     duong.notify('An error occurred', 'error');
@@ -170,7 +169,6 @@
                 });
                 return false;
             }
-
         });
 
         $('#btnAddDetail').on('click', function () {
@@ -213,7 +211,7 @@
                 error: function (status) {
                     duong.notify('An error occurred while confirming', 'error');
                     duong.stopLoading();
-                }                                                                                                                                                                                                                                                               
+                }
             });
         });
 
@@ -230,7 +228,6 @@
                     window.location.href = response;
 
                     duong.stopLoading();
-
                 }
             });
         });
@@ -389,13 +386,10 @@
                     $("#lbl-total-records").text(response.RowCount);
                     if (render != undefined) {
                         $('#tbl-content').html(render);
-
                     }
                     wrapPaging(response.RowCount, function () {
                         loadData();
                     }, isPageChanged);
-
-
                 }
                 else {
                     $("#lbl-total-records").text('0');

@@ -36,7 +36,6 @@
         $("#btn-create").on('click', function () {
             resetFormMaintainance();
             $('#modal-add-edit').modal('show');
-
         });
 
         $('body').on('click', '.btn-edit', function (e) {
@@ -61,7 +60,6 @@
 
                     $('#modal-add-edit').modal('show');
                     duong.stopLoading();
-
                 },
                 error: function () {
                     duong.notify('An error occurred', 'error');
@@ -143,7 +141,6 @@
         $('#txtAliasM').val('');
         CKEDITOR.instances.txtContentM.setData('');
         $('#ckStatusM').prop('checked', true);
-
     }
 
     function registerControls() {
@@ -196,13 +193,10 @@
                     $("#lbl-total-records").text(response.RowCount);
                     if (render != undefined) {
                         $('#tbl-content').html(render);
-
                     }
                     wrapPaging(response.RowCount, function () {
                         loadData();
                     }, isPageChanged);
-
-
                 }
                 else {
                     $('#tbl-content').html('');

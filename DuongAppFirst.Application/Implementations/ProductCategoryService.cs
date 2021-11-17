@@ -15,10 +15,10 @@ namespace DuongAppFirst.Application.Implementations
 {
     public class ProductCategoryService : IProductCategoryService
     {
-        private IProductCategoryRepository _productCategoryRepository;
+        private IRepository<ProductCategory, int> _productCategoryRepository;
         private IUnitOfWork _unitOfWork;
 
-        public ProductCategoryService(IProductCategoryRepository productCategoryRepository, IUnitOfWork unitOfWork)
+        public ProductCategoryService(IRepository<ProductCategory, int> productCategoryRepository, IUnitOfWork unitOfWork)
         {
             _productCategoryRepository = productCategoryRepository;
             _unitOfWork = unitOfWork;
@@ -114,13 +114,14 @@ namespace DuongAppFirst.Application.Implementations
             var sourceCategory = _productCategoryRepository.FindById(sourceId);
             sourceCategory.ParentId = targetId;
             _productCategoryRepository.Update(sourceCategory);
-
-            //Get all sibling
-            var sibling = _productCategoryRepository.FindAll(x => items.ContainsKey(x.Id));
+                //Get all sibling
+            var sibling = _productCategoryRepository.FindAll().ToList();   
             foreach (var child in sibling)
             {
-                child.SortOrder = items[child.Id];
-                _productCategoryRepository.Update(child);
+                if (items.ContainsKey(child.Id)) {
+                    child.SortOrder = items[child.Id];
+                    _productCategoryRepository.Update(child);
+                }
             }
         }
     }

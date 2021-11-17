@@ -29,7 +29,7 @@ namespace DuongAppFirst.Application.AutoMapper
             .ConstructUsing(c => new Permission(c.RoleId, c.FunctionId, c.CanCreate, c.CanRead, c.CanUpdate, c.CanDelete));
 
             CreateMap<BillViewModel, Bill>()
-              .ConstructUsing(c => new Bill(c.Id, c.CustomerName, c.CustomerAddress,
+              .ConstructUsing(c => new Bill(c.CustomerName, c.CustomerAddress,
               c.CustomerMobile, c.CustomerMessage, c.BillStatus,
               c.PaymentMethod, c.Status, c.CustomerId));
 

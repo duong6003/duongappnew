@@ -17,18 +17,18 @@ namespace DuongAppFirst.Application.Implementations
 {
     public class BillService : IBillService
     {
-        private readonly IBillRepository _orderRepository;
-        private readonly IBillDetailRepository _orderDetailRepository;
-        private readonly IColorRepository _colorRepository;
-        private readonly ISizeRepository _sizeRepository;
-        private readonly IProductRepository _productRepository;
+        private readonly IRepository<Bill, int> _orderRepository;
+        private readonly IRepository<BillDetail, int> _orderDetailRepository;
+        private readonly IRepository<Color, int> _colorRepository;
+        private readonly IRepository<Size, int> _sizeRepository;
+        private readonly IRepository<Product, int> _productRepository;
         private readonly IUnitOfWork _unitOfWork;
 
-        public BillService(IBillRepository orderRepository,
-            IBillDetailRepository orderDetailRepository,
-            IColorRepository colorRepository,
-            IProductRepository productRepository,
-            ISizeRepository sizeRepository,
+        public BillService(IRepository<Bill, int> orderRepository,
+            IRepository<BillDetail, int> orderDetailRepository,
+            IRepository<Color, int> colorRepository,
+            IRepository<Size, int> sizeRepository,
+            IRepository<Product, int> productRepository,
             IUnitOfWork unitOfWork)
         {
             _orderRepository = orderRepository;
@@ -42,13 +42,13 @@ namespace DuongAppFirst.Application.Implementations
         public void Create(BillViewModel billVm)
         {
             var order = Mapper.Map<BillViewModel, Bill>(billVm);
-            var orderDetails = Mapper.Map<List<BillDetailViewModel>, List<BillDetail>>(billVm.BillDetails);
-            foreach (var detail in orderDetails)
-            {
-                var product = _productRepository.FindById(detail.ProductId);
-                detail.Price = product.Price;
-            }
-            order.BillDetails = orderDetails;
+            //var orderDetails = Mapper.Map<List<BillDetailViewModel>, List<BillDetail>>(billVm.BillDetails);
+            //foreach (var detail in orderDetails)
+            //{
+            //    var product = _productRepository.FindById(detail.ProductId);
+            //    detail.Price = product.Price;
+            //}
+            //order.BillDetails = orderDetails;
             _orderRepository.Add(order);
         }
 
@@ -67,7 +67,7 @@ namespace DuongAppFirst.Application.Implementations
             var updatedDetails = newDetails.Where(x => x.Id != 0).ToList();
 
             //Existed details
-            var existedDetails = _orderDetailRepository.FindAll(x => x.BillId == billVm.Id);
+            var existedDetails = _orderDetailRepository.FindAll(x => x.BillId == billVm.Id).ToList();
 
             //Clear db
             order.BillDetails.Clear();
@@ -85,7 +85,6 @@ namespace DuongAppFirst.Application.Implementations
                 detail.Price = product.Price;
                 _orderDetailRepository.Add(detail);
             }
-
             _orderDetailRepository.RemoveMultiple(existedDetails.Except(updatedDetails).ToList());
 
             _orderRepository.Update(order);
