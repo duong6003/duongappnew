@@ -22,21 +22,23 @@ namespace DuongAppFirst.Application.Implementations
         private readonly IRepository<Tag, string> _tagRepository;
         private readonly IRepository<BlogTag, int> _blogTagRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         public BlogService(IRepository<Blog, int> blogRepository,
             IRepository<BlogTag, int> blogTagRepository,
             IRepository<Tag, string> tagRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, IMapper mapper)
         {
             _blogRepository = blogRepository;
             _blogTagRepository = blogTagRepository;
             _tagRepository = tagRepository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public BlogViewModel Add(BlogViewModel blogVm)
         {
-            var blog = Mapper.Map<BlogViewModel, Blog>(blogVm);
+            var blog = _mapper.Map<BlogViewModel, Blog>(blogVm);
 
             if (!string.IsNullOrEmpty(blog.Tags))
             {
@@ -71,7 +73,7 @@ namespace DuongAppFirst.Application.Implementations
         public List<BlogViewModel> GetAll()
         {
             return _blogRepository.FindAll(c => c.BlogTags)
-                .ProjectTo<BlogViewModel>().ToList();
+                .ProjectTo<BlogViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public PagedResult<BlogViewModel> GetAllPaging(string keyword, int pageSize, int page = 1)
@@ -87,7 +89,7 @@ namespace DuongAppFirst.Application.Implementations
 
             var paginationSet = new PagedResult<BlogViewModel>()
             {
-                Results = data.ProjectTo<BlogViewModel>().ToList(),
+                Results = data.ProjectTo<BlogViewModel>(_mapper.ConfigurationProvider).ToList(),
                 CurrentPage = page,
                 RowCount = totalRow,
                 PageSize = pageSize,
@@ -98,7 +100,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public BlogViewModel GetById(int id)
         {
-            return Mapper.Map<Blog, BlogViewModel>(_blogRepository.FindById(id));
+            return _mapper.Map<Blog, BlogViewModel>(_blogRepository.FindById(id));
         }
 
         public void Save()
@@ -108,7 +110,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public void Update(BlogViewModel blog)
         {
-            _blogRepository.Update(Mapper.Map<BlogViewModel, Blog>(blog));
+            _blogRepository.Update(_mapper.Map<BlogViewModel, Blog>(blog));
             if (!string.IsNullOrEmpty(blog.Tags))
             {
                 string[] tags = blog.Tags.Split(',');
@@ -139,7 +141,7 @@ namespace DuongAppFirst.Application.Implementations
         public List<BlogViewModel> GetLastest(int top)
         {
             return _blogRepository.FindAll(x => x.Status == Status.Active).OrderByDescending(x => x.DateCreated)
-                .Take(top).ProjectTo<BlogViewModel>().ToList();
+                .Take(top).ProjectTo<BlogViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public List<BlogViewModel> GetHotProduct(int top)
@@ -147,7 +149,7 @@ namespace DuongAppFirst.Application.Implementations
             return _blogRepository.FindAll(x => x.Status == Status.Active && x.HotFlag == true)
                 .OrderByDescending(x => x.DateCreated)
                 .Take(top)
-                .ProjectTo<BlogViewModel>()
+                .ProjectTo<BlogViewModel>(_mapper.ConfigurationProvider)
                 .ToList();
         }
 
@@ -170,7 +172,7 @@ namespace DuongAppFirst.Application.Implementations
 
             return query.Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .ProjectTo<BlogViewModel>().ToList();
+                .ProjectTo<BlogViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public List<string> GetListByName(string name)
@@ -199,7 +201,7 @@ namespace DuongAppFirst.Application.Implementations
 
             return query.Skip((page - 1) * pageSize)
                 .Take(pageSize)
-                .ProjectTo<BlogViewModel>()
+                .ProjectTo<BlogViewModel>(_mapper.ConfigurationProvider)
                 .ToList();
         }
 
@@ -209,7 +211,7 @@ namespace DuongAppFirst.Application.Implementations
                 && x.Id != id)
             .OrderByDescending(x => x.DateCreated)
             .Take(top)
-            .ProjectTo<BlogViewModel>()
+            .ProjectTo<BlogViewModel>(_mapper.ConfigurationProvider)
             .ToList();
         }
 
@@ -217,7 +219,7 @@ namespace DuongAppFirst.Application.Implementations
         {
             return _blogTagRepository.FindAll(x => x.BlogId == id, c => c.Tag)
                 .Select(y => y.Tag)
-                .ProjectTo<TagViewModel>()
+                .ProjectTo<TagViewModel>(_mapper.ConfigurationProvider)
                 .ToList();
         }
 
@@ -244,27 +246,27 @@ namespace DuongAppFirst.Application.Implementations
             query = query.Skip((page - 1) * pageSize).Take(pageSize);
 
             var model = query
-                .ProjectTo<BlogViewModel>();
+                .ProjectTo<BlogViewModel>(_mapper.ConfigurationProvider);
             return model.ToList();
         }
 
         public TagViewModel GetTag(string tagId)
         {
-            return Mapper.Map<Tag, TagViewModel>(_tagRepository.FindSingle(x => x.Id == tagId));
+            return _mapper.Map<Tag, TagViewModel>(_tagRepository.FindSingle(x => x.Id == tagId));
         }
 
         public List<BlogViewModel> GetList(string keyword)
         {
             var query = !string.IsNullOrEmpty(keyword) ?
-                _blogRepository.FindAll(x => x.Name.Contains(keyword)).ProjectTo<BlogViewModel>()
-                : _blogRepository.FindAll().ProjectTo<BlogViewModel>();
+                _blogRepository.FindAll(x => x.Name.Contains(keyword)).ProjectTo<BlogViewModel>(_mapper.ConfigurationProvider)
+                : _blogRepository.FindAll().ProjectTo<BlogViewModel>(_mapper.ConfigurationProvider);
             return query.ToList();
         }
 
         public List<TagViewModel> GetListTag(string searchText)
         {
             return _tagRepository.FindAll(x => x.Type == CommonConstants.ProductTag
-            && searchText.Contains(x.Name)).ProjectTo<TagViewModel>().ToList();
+            && searchText.Contains(x.Name)).ProjectTo<TagViewModel>(_mapper.ConfigurationProvider).ToList();
         }
     }
 }

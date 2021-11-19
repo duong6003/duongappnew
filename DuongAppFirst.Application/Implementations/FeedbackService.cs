@@ -16,17 +16,18 @@ namespace DuongAppFirst.Application.Implementations
     {
         private IRepository<Feedback, int> _feedbackRepository;
         private IUnitOfWork _unitOfWork;
-
+        private readonly IMapper _mapper;
         public FeedbackService(IRepository<Feedback, int> feedbackRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, IMapper mapper)
         {
             _feedbackRepository = feedbackRepository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public void Add(FeedbackViewModel feedbackVm)
         {
-            var page = Mapper.Map<FeedbackViewModel, Feedback>(feedbackVm);
+            var page = _mapper.Map<FeedbackViewModel, Feedback>(feedbackVm);
             _feedbackRepository.Add(page);
         }
 
@@ -42,7 +43,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public List<FeedbackViewModel> GetAll()
         {
-            return _feedbackRepository.FindAll().ProjectTo<FeedbackViewModel>().ToList();
+            return _feedbackRepository.FindAll().ProjectTo<FeedbackViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public PagedResult<FeedbackViewModel> GetAllPaging(string keyword, int page, int pageSize)
@@ -58,7 +59,7 @@ namespace DuongAppFirst.Application.Implementations
 
             var paginationSet = new PagedResult<FeedbackViewModel>()
             {
-                Results = data.ProjectTo<FeedbackViewModel>().ToList(),
+                Results = data.ProjectTo<FeedbackViewModel>(_mapper.ConfigurationProvider).ToList(),
                 CurrentPage = page,
                 RowCount = totalRow,
                 PageSize = pageSize
@@ -69,12 +70,12 @@ namespace DuongAppFirst.Application.Implementations
 
         public FeedbackViewModel GetById(int id)
         {
-            return Mapper.Map<Feedback, FeedbackViewModel>(_feedbackRepository.FindById(id));
+            return _mapper.Map<Feedback, FeedbackViewModel>(_feedbackRepository.FindById(id));
         }
 
         public List<FeedbackViewModel> GetLastest(int top)
         {
-            return _feedbackRepository.FindAll().OrderByDescending(x=>x.DateModified).Take(top).ProjectTo<FeedbackViewModel>().ToList();
+            return _feedbackRepository.FindAll().OrderByDescending(x=>x.DateModified).Take(top).ProjectTo<FeedbackViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public void SaveChanges()
@@ -84,7 +85,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public void Update(FeedbackViewModel feedbackVm)
         {
-            var page = Mapper.Map<FeedbackViewModel, Feedback>(feedbackVm);
+            var page = _mapper.Map<FeedbackViewModel, Feedback>(feedbackVm);
             _feedbackRepository.Update(page);
         }
     }

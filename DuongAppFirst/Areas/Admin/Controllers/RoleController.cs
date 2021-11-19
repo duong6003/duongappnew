@@ -1,7 +1,10 @@
 ﻿using DuongAppFirst.Application.Interfaces;
 using DuongAppFirst.Application.ViewModels.System;
+using DuongAppFirst.Extensions;
+using DuongAppFirst.SignalR;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using Microsoft.AspNetCore.SignalR;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,12 +15,12 @@ namespace DuongAppFirst.Areas.Admin.Controllers
     public class RoleController : BaseController
     {
         private readonly IRoleService _roleService;
-        //private readonly IHubContext<TeduHub> _hubContext;
+        private readonly IHubContext<DuongHub> _hubContext;
 
-        public RoleController(IRoleService roleService/*, IHubContext<TeduHub> hubContext*/)
+        public RoleController(IRoleService roleService, IHubContext<DuongHub> hubContext)
         {
             _roleService = roleService;
-            //_hubContext = hubContext;
+            _hubContext = hubContext;
         }
         public IActionResult Index()
         {
@@ -55,22 +58,22 @@ namespace DuongAppFirst.Areas.Admin.Controllers
             }
             if (!roleVm.Id.HasValue)
             {
-                //var notificationId = Guid.NewGuid().ToString();
-                //var announcement = new AnnouncementViewModel()
-                //{
-                //    Title = "Role created",
-                //    DateCreated = DateTime.Now,
-                //    Content = $"Role {roleVm.Name} has been created",
-                //    Id = notificationId,
-                //    UserId = User.GetUserId()
-                //};
-                //var announcementUsers = new List<AnnouncementUserViewModel>()
-                //{
-                //    new AnnouncementUserViewModel(){AnnouncementId = notificationId,HasRead = false,UserId = User.GetUserId()}
-                //};
-                await _roleService.AddAsync(/*announcement, announcementUsers, */roleVm);
+                var notificationId = Guid.NewGuid().ToString();
+                var announcement = new AnnouncementViewModel()
+                {
+                    Title = "Role created",
+                    DateCreated = DateTime.Now,
+                    Content = $"Role {roleVm.Name} has been created",
+                    Id = notificationId,
+                    UserId = User.GetUserId()
+                };
+                var announcementUsers = new List<AnnouncementUserViewModel>()
+                {
+                    new AnnouncementUserViewModel(){AnnouncementId = notificationId,HasRead = false,UserId = User.GetUserId()}
+                };
+                await _roleService.AddAsync(announcement, announcementUsers, roleVm);
 
-                //await _hubContext.Clients.All.SendAsync("ReceiveMessage", announcement);
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", announcement);
 
             }
             else

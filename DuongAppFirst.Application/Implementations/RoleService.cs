@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using DuongAppFirst.Application.Interfaces;
 using DuongAppFirst.Application.ViewModels.System;
 using DuongAppFirst.Data.Entities;
-using DuongAppFirst.Data.IRepositories;
 using DuongAppFirst.Infrastructure.Interfaces;
 using DuongAppFirst.Utillities.Dtos;
 using Microsoft.AspNetCore.Identity;
@@ -18,24 +17,34 @@ namespace DuongAppFirst.Application.Implementations
 {
     public class RoleService : IRoleService
     {
-        private readonly RoleManager<AppRole> _roleManager;
-        private readonly IRepository<Function, string> _functionRepository;
-        private readonly IRepository<Permission, int> _permissionRepository;
+        private RoleManager<AppRole> _roleManager;
+        private IRepository<Function, string> _functionRepository;
+        private IRepository<Permission, int> _permissionRepository;
+        private IRepository<Announcement, string> _announRepository;
+        private IRepository<AnnouncementUser, int> _announUserRepository;
 
-        private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
+        private IUnitOfWork _unitOfWork;
 
         public RoleService(RoleManager<AppRole> roleManager,
-            IRepository<Function, string> functionRepository,
-            IRepository<Permission, int> permissionRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork,
+            IRepository<AnnouncementUser, int> announUserRepository,
+         IRepository<Function, string> functionRepository,
+         IRepository<Permission, int> permissionRepository,
+            IRepository<Announcement, string> announRepository,
+            IMapper mapper)
         {
-            _roleManager = roleManager;
-            _functionRepository = functionRepository;
-            _permissionRepository = permissionRepository;
             _unitOfWork = unitOfWork;
+            _roleManager = roleManager;
+            _announRepository = announRepository;
+            _functionRepository = functionRepository;
+            _announUserRepository = announUserRepository;
+            _permissionRepository = permissionRepository;
+            _mapper = mapper;
         }
 
-        public async Task<bool> AddAsync(AppRoleViewModel roleVm)
+        public async Task<bool> AddAsync(AnnouncementViewModel announcementVm,
+            List<AnnouncementUserViewModel> announcementUsers, AppRoleViewModel roleVm)
         {
             var role = new AppRole()
             {
@@ -43,6 +52,14 @@ namespace DuongAppFirst.Application.Implementations
                 Description = roleVm.Description
             };
             var result = await _roleManager.CreateAsync(role);
+            var announcement = _mapper.Map<AnnouncementViewModel, Announcement>(announcementVm);
+            _announRepository.Add(announcement);
+            foreach (var userVm in announcementUsers)
+            {
+                var user = _mapper.Map<AnnouncementUserViewModel, AnnouncementUser>(userVm);
+                _announUserRepository.Add(user);
+            }
+            _unitOfWork.Commit();
             return result.Succeeded;
         }
 
@@ -70,7 +87,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public async Task<List<AppRoleViewModel>> GetAllAsync()
         {
-            return await _roleManager.Roles.ProjectTo<AppRoleViewModel>().ToListAsync();
+            return await _roleManager.Roles.ProjectTo<AppRoleViewModel>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public PagedResult<AppRoleViewModel> GetAllPagingAsync(string keyword, int page, int pageSize)
@@ -84,7 +101,7 @@ namespace DuongAppFirst.Application.Implementations
             query = query.Skip((page - 1) * pageSize)
                .Take(pageSize);
 
-            var data = query.ProjectTo<AppRoleViewModel>().ToList();
+            var data = query.ProjectTo<AppRoleViewModel>(_mapper.ConfigurationProvider).ToList();
             var paginationSet = new PagedResult<AppRoleViewModel>()
             {
                 Results = data,
@@ -99,7 +116,7 @@ namespace DuongAppFirst.Application.Implementations
         public async Task<AppRoleViewModel> GetById(Guid id)
         {
             var role = await _roleManager.FindByIdAsync(id.ToString());
-            return Mapper.Map<AppRole, AppRoleViewModel>(role);
+            return _mapper.Map<AppRole, AppRoleViewModel>(role);
         }
 
         public List<PermissionViewModel> GetListFunctionWithRole(Guid roleId)
@@ -125,7 +142,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public void SavePermission(List<PermissionViewModel> permissionVms, Guid roleId)
         {
-            var permissions = Mapper.Map<List<PermissionViewModel>, List<Permission>>(permissionVms);
+            var permissions = _mapper.Map<List<PermissionViewModel>, List<Permission>>(permissionVms);
             var oldPermission = _permissionRepository.FindAll().Where(x => x.RoleId == roleId).ToList();
             if (oldPermission.Count > 0)
             {

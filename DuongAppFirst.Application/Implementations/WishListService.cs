@@ -3,7 +3,6 @@ using AutoMapper.QueryableExtensions;
 using DuongAppFirst.Application.Interfaces;
 using DuongAppFirst.Application.ViewModels.Product;
 using DuongAppFirst.Data.Entities;
-using DuongAppFirst.Data.IRepositories;
 using DuongAppFirst.Infrastructure.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -18,20 +17,22 @@ namespace DuongAppFirst.Application.Implementations
         private readonly IRepository<WishListDetail, int> _wishListDetailRepository;
         private readonly IRepository<Product, int> _productRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         public WishListService(IRepository<WishList, int> wishListRepository,
-            IRepository<WishListDetail, int> wishListDetailRepository, IRepository<Product, int> productRepository, IUnitOfWork unitOfWork)
+            IRepository<WishListDetail, int> wishListDetailRepository, IRepository<Product, int> productRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _wishListRepository = wishListRepository;
             _wishListDetailRepository = wishListDetailRepository;
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public List<WishListDetailViewModel> GetAllDetails(int wishId)
         {
             var wish = _wishListRepository.FindById(wishId);
-            var wishVm = Mapper.Map<WishList, WishListViewModel>(wish);
+            var wishVm = _mapper.Map<WishList, WishListViewModel>(wish);
             return wishVm.wishListDetails;
         }
         public void DeleteDetail(int productId, int wishId)
@@ -60,8 +61,8 @@ namespace DuongAppFirst.Application.Implementations
                 _wishListRepository.Add(wish);
                 Save();
             }
-            var wishVm = Mapper.Map<WishList, WishListViewModel>(wish);
-            var details = _wishListDetailRepository.FindAll(x=>x.WishListId==wishVm.Id).ProjectTo<WishListDetailViewModel>().ToList();
+            var wishVm = _mapper.Map<WishList, WishListViewModel>(wish);
+            var details = _wishListDetailRepository.FindAll(x=>x.WishListId==wishVm.Id).ProjectTo<WishListDetailViewModel>(_mapper.ConfigurationProvider).ToList();
             wishVm.wishListDetails = details;
             return wishVm;
         }

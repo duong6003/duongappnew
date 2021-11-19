@@ -16,17 +16,18 @@ namespace DuongAppFirst.Application.Implementations
     {
         private IRepository<Page, int> _pageRepository;
         private IUnitOfWork _unitOfWork;
-
+        private readonly IMapper _mapper;
         public PageService(IRepository<Page, int> pageRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, IMapper mapper)
         {
             this._pageRepository = pageRepository;
             this._unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public void Add(PageViewModel pageVm)
         {
-            var page = Mapper.Map<PageViewModel, Page>(pageVm);
+            var page = _mapper.Map<PageViewModel, Page>(pageVm);
             _pageRepository.Add(page);
         }
 
@@ -42,7 +43,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public List<PageViewModel> GetAll()
         {
-            return _pageRepository.FindAll().ProjectTo<PageViewModel>().ToList();
+            return _pageRepository.FindAll().ProjectTo<PageViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public PagedResult<PageViewModel> GetAllPaging(string keyword, int page, int pageSize)
@@ -58,7 +59,7 @@ namespace DuongAppFirst.Application.Implementations
 
             var paginationSet = new PagedResult<PageViewModel>()
             {
-                Results = data.ProjectTo<PageViewModel>().ToList(),
+                Results = data.ProjectTo<PageViewModel>(_mapper.ConfigurationProvider).ToList(),
                 CurrentPage = page,
                 RowCount = totalRow,
                 PageSize = pageSize
@@ -69,12 +70,12 @@ namespace DuongAppFirst.Application.Implementations
 
         public PageViewModel GetByAlias(string alias)
         {
-            return Mapper.Map<Page, PageViewModel>(_pageRepository.FindSingle(x => x.Alias == alias));
+            return _mapper.Map<Page, PageViewModel>(_pageRepository.FindSingle(x => x.Alias == alias));
         }
 
         public PageViewModel GetById(int id)
         {
-            return Mapper.Map<Page, PageViewModel>(_pageRepository.FindById(id));
+            return _mapper.Map<Page, PageViewModel>(_pageRepository.FindById(id));
         }
 
         public void SaveChanges()
@@ -84,7 +85,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public void Update(PageViewModel pageVm)
         {
-            var page = Mapper.Map<PageViewModel, Page>(pageVm);
+            var page = _mapper.Map<PageViewModel, Page>(pageVm);
             _pageRepository.Update(page);
         }
     }

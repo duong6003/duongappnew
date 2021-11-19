@@ -1,6 +1,9 @@
 ﻿using DuongAppFirst.Application.Interfaces;
 using DuongAppFirst.Application.ViewModels.System;
 using DuongAppFirst.Authorization;
+using DuongAppFirst.Data.Enums;
+using DuongAppFirst.Extensions;
+using DuongAppFirst.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
@@ -16,16 +19,16 @@ namespace DuongAppFirst.Areas.Admin.Controllers
     {
         private readonly IUserService _userService;
         private readonly IAuthorizationService _authorizationService;
-        //private readonly IHubContext<TeduHub> _hubContext;
+        private readonly IHubContext<DuongHub> _hubContext;
 
 
         public UserController(IUserService userService,
-            IAuthorizationService authorizationService)
-            //IHubContext<TeduHub> hubContext)
+            IAuthorizationService authorizationService,
+            IHubContext<DuongHub> hubContext)
         {
             _userService = userService;
             _authorizationService = authorizationService;
-            //_hubContext = hubContext;
+            _hubContext = hubContext;
         }
         public async Task<IActionResult> Index()
         {
@@ -67,18 +70,17 @@ namespace DuongAppFirst.Areas.Admin.Controllers
             }
             if (userVm.Id == null)
             {
-                //var announcement = new AnnouncementViewModel()
-                //{
-                //    Content = $"User {userVm.UserName} has been created",
-                //    DateCreated = DateTime.Now,
-                //    Status = Status.Active,
-                //    Title = "User created",
-                //    UserId = User.GetUserId(),
-                //    Id = Guid.NewGuid().ToString(),
-
-                //};
+                var announcement = new AnnouncementViewModel()
+                {
+                    Content = $"User {userVm.UserName} has been created",
+                    DateCreated = DateTime.Now,
+                    Status = Status.Active,
+                    Title = "User created",
+                    UserId = User.GetUserId(),
+                    Id = Guid.NewGuid().ToString(),
+                };
                 await _userService.AddAsync(userVm);
-                //await _hubContext.Clients.All.SendAsync("ReceiveMessage", announcement);
+                await _hubContext.Clients.All.SendAsync("ReceiveMessage", announcement);
             }
             else
             {

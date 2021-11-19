@@ -16,16 +16,18 @@ namespace DuongAppFirst.Application.Implementations
     {
         private readonly IRepository<Rating, int> _ratingRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public RatingService(IRepository<Rating, int> ratingRepository, IUnitOfWork unitOfWork)
+        public RatingService(IRepository<Rating, int> ratingRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _ratingRepository = ratingRepository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public void Add(RatingViewModel ratingVm)
         {
-            var rate = Mapper.Map<Rating>(ratingVm);
+            var rate = _mapper.Map<Rating>(ratingVm);
             _ratingRepository.Add(rate);
         }
 
@@ -36,21 +38,21 @@ namespace DuongAppFirst.Application.Implementations
 
         public List<RatingViewModel> GetAll()
         {
-            return _ratingRepository.FindAll().ProjectTo<RatingViewModel>().ToList();
+            return _ratingRepository.FindAll().ProjectTo<RatingViewModel>(_mapper.ConfigurationProvider).ToList();
         }
         public List<RatingViewModel> GetByRate(int rate,int? top)
         {
             var rating = _ratingRepository.FindAll(x => x.Rate == rate);
             if (top.HasValue)
             {
-                return rating.Take((int)top).ProjectTo<RatingViewModel>().ToList();
+                return rating.Take((int)top).ProjectTo<RatingViewModel>(_mapper.ConfigurationProvider).ToList();
             }
-            else return rating.ProjectTo<RatingViewModel>().ToList();
+            else return rating.ProjectTo<RatingViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public RatingViewModel GetById(int id)
         {
-            return Mapper.Map<Rating, RatingViewModel>(_ratingRepository.FindById(id));
+            return _mapper.Map<Rating, RatingViewModel>(_ratingRepository.FindById(id));
         }
 
         public void SaveChanges()
@@ -60,7 +62,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public void Update(RatingViewModel ratingVm)
         {
-            var rate = Mapper.Map<RatingViewModel, Rating>(ratingVm);
+            var rate = _mapper.Map<RatingViewModel, Rating>(ratingVm);
             _ratingRepository.Update(rate);
         }
     }

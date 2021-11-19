@@ -1,25 +1,23 @@
 ﻿using AutoMapper;
+using DuongAppFirst.Application.AutoMapper;
 using DuongAppFirst.Application.Dapper.Implementation;
 using DuongAppFirst.Application.Dapper.Interfaces;
 using DuongAppFirst.Application.Implementations;
 using DuongAppFirst.Application.Interfaces;
 using DuongAppFirst.Authorization;
 using DuongAppFirst.Data.EF;
-using DuongAppFirst.Data.EF.Repositories;
 using DuongAppFirst.Data.Entities;
-using DuongAppFirst.Data.IRepositories;
 using DuongAppFirst.Extensions;
 using DuongAppFirst.Helpers;
 using DuongAppFirst.Infrastructure.Interfaces;
 using DuongAppFirst.Services;
+using DuongAppFirst.SignalR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding.Binders;
 using Microsoft.AspNetCore.Mvc.Razor;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -103,7 +101,6 @@ namespace DuongAppFirst
                 SecretKey = Configuration["Recaptcha:SecretKey"]
             });
 
-            services.AddAutoMapper();
             services.AddAuthentication()
                 .AddFacebook(facebookOpts =>
                 {
@@ -119,8 +116,10 @@ namespace DuongAppFirst
             services.AddScoped<UserManager<AppUser>, UserManager<AppUser>>();
             services.AddScoped<RoleManager<AppRole>, RoleManager<AppRole>>();
 
-            services.AddSingleton(Mapper.Configuration);
-            services.AddScoped<IMapper>(sp => new Mapper(sp.GetRequiredService<AutoMapper.IConfigurationProvider>(), sp.GetService));
+            // Auto Mapper Configurations
+            var mapperConfig = AutoMapperConfig.RegisterMappings();
+            IMapper mapper = mapperConfig.CreateMapper();
+            services.AddSingleton(mapper);
 
             services.AddTransient<Services.IEmailSender, EmailSender>();
             services.AddTransient<IViewRenderService, ViewRenderService>();
@@ -135,9 +134,10 @@ namespace DuongAppFirst
             }).AddViewLocalization(
                     LanguageViewLocationExpanderFormat.Suffix,
                     opts => { opts.ResourcesPath = "Resources"; })
-                .AddDataAnnotationsLocalization(); 
+                .AddDataAnnotationsLocalization();
 
             services.AddRazorPages().AddRazorRuntimeCompilation();
+            services.AddSignalR();
 
             services.AddAuthorizationCore(options =>
             {
@@ -152,7 +152,7 @@ namespace DuongAppFirst
                 {
                     builder.AllowAnyMethod()
                         .AllowAnyHeader()
-                        .WithOrigins("http://localhost:5001");
+                        .WithOrigins("https://localhost:3001", "http://localhost:3000");
                 }));
             services.AddHealthChecks();
             services.Configure<RequestLocalizationOptions>(
@@ -188,6 +188,7 @@ namespace DuongAppFirst
             services.AddTransient<IContactService, ContactService>();
             services.AddTransient<IPageService, PageService>();
             services.AddTransient<IReportService, ReportService>();
+            services.AddTransient<IAnnouncementService, AnnouncementService>();
 
             services.AddTransient<IAuthorizationHandler, BaseResourceAuthorizationHandler>();
         }
@@ -225,13 +226,14 @@ namespace DuongAppFirst
             app.UseAuthentication();
             app.UseAuthorization();
 
-            app.UseEndpoints(endpoints => {
-                //endpoints.MapHub<ChatHub>("/chat");
+            app.UseEndpoints(endpoints =>
+            {
                 endpoints.MapControllerRoute("default", "{controller=Home}/{action=Index}/{id?}");
                 endpoints.MapControllerRoute("areaRoute", "{area:exists}/{controller=Login}/{action=Index}/{id?}");
                 //endpoints.MapAreaControllerRoute("admin", "Admin", "Admin/{controller=Login}/{action=Index}/{id?}").RequireAuthorization();
                 endpoints.MapHealthChecks("/health").RequireAuthorization(new AuthorizeAttribute() { Roles = "admin", });
                 endpoints.MapRazorPages();
+                endpoints.MapHub<DuongHub>("/duongHub");
             });
         }
     }

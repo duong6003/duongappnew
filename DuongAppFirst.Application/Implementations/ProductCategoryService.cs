@@ -5,7 +5,6 @@ using DuongAppFirst.Infrastructure.Interfaces;
 using DuongAppFirst.Application.ViewModels.Product;
 using DuongAppFirst.Data.Entities;
 using DuongAppFirst.Data.Enums;
-using DuongAppFirst.Data.IRepositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,16 +16,18 @@ namespace DuongAppFirst.Application.Implementations
     {
         private IRepository<ProductCategory, int> _productCategoryRepository;
         private IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
-        public ProductCategoryService(IRepository<ProductCategory, int> productCategoryRepository, IUnitOfWork unitOfWork)
+        public ProductCategoryService(IRepository<ProductCategory, int> productCategoryRepository, IUnitOfWork unitOfWork, IMapper mapper)
         {
             _productCategoryRepository = productCategoryRepository;
             _unitOfWork = unitOfWork;
-        }
+            _mapper = mapper;
+    }
 
         public ProductCategoryViewModel Add(ProductCategoryViewModel productCategoryVm)
         {
-            var productCategory = Mapper.Map<ProductCategoryViewModel, ProductCategory>(productCategoryVm);
+            var productCategory = _mapper.Map<ProductCategoryViewModel, ProductCategory>(productCategoryVm);
             _productCategoryRepository.Add(productCategory);
             return productCategoryVm;
         }
@@ -39,7 +40,7 @@ namespace DuongAppFirst.Application.Implementations
         public List<ProductCategoryViewModel> GetAll()
         {
             return _productCategoryRepository.FindAll().OrderBy(x => x.ParentId)
-                .ProjectTo<ProductCategoryViewModel>().ToList();
+                .ProjectTo<ProductCategoryViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public List<ProductCategoryViewModel> GetAll(string keyword)
@@ -47,10 +48,10 @@ namespace DuongAppFirst.Application.Implementations
             if (!string.IsNullOrEmpty(keyword))
                 return _productCategoryRepository.FindAll(x => x.Name.Contains(keyword)
                 || x.Description.Contains(keyword))
-                    .OrderBy(x => x.ParentId).ProjectTo<ProductCategoryViewModel>().ToList();
+                    .OrderBy(x => x.ParentId).ProjectTo<ProductCategoryViewModel>(_mapper.ConfigurationProvider).ToList();
             else
                 return _productCategoryRepository.FindAll().OrderBy(x => x.ParentId)
-                    .ProjectTo<ProductCategoryViewModel>()
+                    .ProjectTo<ProductCategoryViewModel>(_mapper.ConfigurationProvider)
                     .ToList();
         }
 
@@ -58,13 +59,13 @@ namespace DuongAppFirst.Application.Implementations
         {
             return _productCategoryRepository.FindAll(x => x.Status == Status.Active
             && x.ParentId == parentId)
-             .ProjectTo<ProductCategoryViewModel>()
+             .ProjectTo<ProductCategoryViewModel>(_mapper.ConfigurationProvider)
              .ToList();
         }
 
         public ProductCategoryViewModel GetById(int id)
         {
-            return Mapper.Map<ProductCategory, ProductCategoryViewModel>(_productCategoryRepository.FindById(id));
+            return _mapper.Map<ProductCategory, ProductCategoryViewModel>(_productCategoryRepository.FindById(id));
         }
 
         public List<ProductCategoryViewModel> GetHomeCategories(int top)
@@ -72,7 +73,7 @@ namespace DuongAppFirst.Application.Implementations
             var query = _productCategoryRepository
                 .FindAll(x => x.HomeFlag == true, c => c.Products)
                   .OrderBy(x => x.HomeOrder)
-                  .Take(top).ProjectTo<ProductCategoryViewModel>();
+                  .Take(top).ProjectTo<ProductCategoryViewModel>(_mapper.ConfigurationProvider);
 
             var categories = query.ToList();
             foreach (var category in categories)
@@ -105,7 +106,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public void Update(ProductCategoryViewModel productCategoryVm)
         {
-            var productCategory = Mapper.Map<ProductCategoryViewModel, ProductCategory>(productCategoryVm);
+            var productCategory = _mapper.Map<ProductCategoryViewModel, ProductCategory>(productCategoryVm);
             _productCategoryRepository.Update(productCategory);
         }
 

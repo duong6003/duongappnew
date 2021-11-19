@@ -4,7 +4,6 @@ using DuongAppFirst.Application.Interfaces;
 using DuongAppFirst.Application.ViewModels.System;
 using DuongAppFirst.Data.Entities;
 using DuongAppFirst.Data.Enums;
-using DuongAppFirst.Data.IRepositories;
 using DuongAppFirst.Infrastructure.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -48,7 +47,7 @@ namespace DuongAppFirst.Application.Implementations
         public FunctionViewModel GetById(string id)
         {
             var function = _functionRepository.FindSingle(x => x.Id == id);
-            return Mapper.Map<Function, FunctionViewModel>(function);
+            return _mapper.Map<Function, FunctionViewModel>(function);
         }
 
         public Task<List<FunctionViewModel>> GetAll(string filter)
@@ -56,12 +55,12 @@ namespace DuongAppFirst.Application.Implementations
             var query = _functionRepository.FindAll(x => x.Status == Status.Active);
             if (!string.IsNullOrEmpty(filter))
                 query = query.Where(x => x.Name.Contains(filter));
-            return query.OrderBy(x => x.ParentId).ProjectTo<FunctionViewModel>().ToListAsync();
+            return query.OrderBy(x => x.ParentId).ProjectTo<FunctionViewModel>(_mapper.ConfigurationProvider).ToListAsync();
         }
 
         public IEnumerable<FunctionViewModel> GetAllWithParentId(string parentId)
         {
-            return _functionRepository.FindAll(x => x.ParentId == parentId).ProjectTo<FunctionViewModel>();
+            return _functionRepository.FindAll(x => x.ParentId == parentId).ProjectTo<FunctionViewModel>(_mapper.ConfigurationProvider);
         }
 
         public void Save()

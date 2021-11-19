@@ -150,7 +150,8 @@
         };
     }
 
-    function saveProduct(e) {
+    function saveProduct(e)
+    {
         if ($('#frmMaintainance').valid()) {
             e.preventDefault();
             var id = $('#hidIdM').val();
@@ -163,8 +164,8 @@
             var price = $('#txtPriceM').val();
             var originalPrice = $('#txtOriginalPriceM').val();
             var promotionPrice = $('#txtPromotionPriceM').val();
-
-            //var image = $('#txtImageM').val();
+            
+            var image = $('#txtImage').val();
 
             var tags = $('#txtTagM').val();
             var seoKeyword = $('#txtMetakeywordM').val();
@@ -185,7 +186,7 @@
                     Id: id,
                     Name: name,
                     CategoryId: categoryId,
-                    Image: '',
+                    Image: image,
                     Price: price,
                     OriginalPrice: originalPrice,
                     PromotionPrice: promotionPrice,
@@ -334,7 +335,7 @@
         $('#txtOriginalPriceM').val('');
         $('#txtPromotionPriceM').val('');
 
-        //$('#txtImageM').val('');
+        $('#txtImageM').val('');
 
         $('#txtTagM').val('');
         $('#txtMetakeywordM').val('');

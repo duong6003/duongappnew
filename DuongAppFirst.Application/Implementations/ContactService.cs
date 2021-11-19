@@ -16,17 +16,18 @@ namespace DuongAppFirst.Application.Implementations
     {
         private IRepository<Contact, string> _contactRepository;
         private IUnitOfWork _unitOfWork;
-
+        private readonly IMapper _mapper;
         public ContactService(IRepository<Contact, string> contactRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, IMapper mapper)
         {
             this._contactRepository = contactRepository;
             this._unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public void Add(ContactViewModel pageVm)
         {
-            var page = Mapper.Map<ContactViewModel, Contact>(pageVm);
+            var page = _mapper.Map<ContactViewModel, Contact>(pageVm);
             _contactRepository.Add(page);
         }
 
@@ -42,7 +43,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public List<ContactViewModel> GetAll()
         {
-            return _contactRepository.FindAll().ProjectTo<ContactViewModel>().ToList();
+            return _contactRepository.FindAll().ProjectTo<ContactViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public PagedResult<ContactViewModel> GetAllPaging(string keyword, int page, int pageSize)
@@ -58,7 +59,7 @@ namespace DuongAppFirst.Application.Implementations
 
             var paginationSet = new PagedResult<ContactViewModel>()
             {
-                Results = data.ProjectTo<ContactViewModel>().ToList(),
+                Results = data.ProjectTo<ContactViewModel>(_mapper.ConfigurationProvider).ToList(),
                 CurrentPage = page,
                 RowCount = totalRow,
                 PageSize = pageSize
@@ -69,7 +70,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public ContactViewModel GetById(string id)
         {
-            return Mapper.Map<Contact, ContactViewModel>(_contactRepository.FindById(id));
+            return _mapper.Map<Contact, ContactViewModel>(_contactRepository.FindById(id));
         }
 
         public void SaveChanges()
@@ -79,7 +80,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public void Update(ContactViewModel pageVm)
         {
-            var page = Mapper.Map<ContactViewModel, Contact>(pageVm);
+            var page = _mapper.Map<ContactViewModel, Contact>(pageVm);
             _contactRepository.Update(page);
         }
     }

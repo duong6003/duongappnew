@@ -16,6 +16,8 @@ namespace DuongAppFirst.Application.AutoMapper
         {
             CreateMap<ProductCategory, ProductCategoryViewModel>();
             CreateMap<Product, ProductViewModel>();
+            CreateMap<Announcement, AnnouncementViewModel>().MaxDepth(2);
+
             CreateMap<Function, FunctionViewModel>();
             CreateMap<AppUser, AppUserViewModel>();
             CreateMap<AppRole, AppRoleViewModel>();

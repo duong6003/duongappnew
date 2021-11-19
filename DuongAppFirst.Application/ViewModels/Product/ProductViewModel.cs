@@ -65,5 +65,6 @@ namespace DuongAppFirst.Application.ViewModels.Product
         public DateTime DateCreated { get; set; }
         public Style Style { get; set; }
         public int TotalRate { get; set; } = 0;
+
     }
 }

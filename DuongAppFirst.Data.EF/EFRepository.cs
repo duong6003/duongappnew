@@ -1,5 +1,4 @@
-﻿using DuongAppFirst.Data.IRepositories;
-using DuongAppFirst.Infrastructure.Interfaces;
+﻿using DuongAppFirst.Infrastructure.Interfaces;
 using DuongAppFirst.Infrastructure.SharedKernel;
 using Microsoft.EntityFrameworkCore;
 using System;

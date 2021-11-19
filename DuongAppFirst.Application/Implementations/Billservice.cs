@@ -4,7 +4,6 @@ using DuongAppFirst.Application.Interfaces;
 using DuongAppFirst.Application.ViewModels.Product;
 using DuongAppFirst.Data.Entities;
 using DuongAppFirst.Data.Enums;
-using DuongAppFirst.Data.IRepositories;
 using DuongAppFirst.Infrastructure.Interfaces;
 using DuongAppFirst.Utillities.Dtos;
 using System;
@@ -23,13 +22,14 @@ namespace DuongAppFirst.Application.Implementations
         private readonly IRepository<Size, int> _sizeRepository;
         private readonly IRepository<Product, int> _productRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         public BillService(IRepository<Bill, int> orderRepository,
             IRepository<BillDetail, int> orderDetailRepository,
             IRepository<Color, int> colorRepository,
             IRepository<Size, int> sizeRepository,
             IRepository<Product, int> productRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, IMapper mapper)
         {
             _orderRepository = orderRepository;
             _orderDetailRepository = orderDetailRepository;
@@ -37,11 +37,12 @@ namespace DuongAppFirst.Application.Implementations
             _sizeRepository = sizeRepository;
             _productRepository = productRepository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public void Create(BillViewModel billVm)
         {
-            var order = Mapper.Map<BillViewModel, Bill>(billVm);
+            var order = _mapper.Map<BillViewModel, Bill>(billVm);
             //var orderDetails = Mapper.Map<List<BillDetailViewModel>, List<BillDetail>>(billVm.BillDetails);
             //foreach (var detail in orderDetails)
             //{
@@ -55,7 +56,7 @@ namespace DuongAppFirst.Application.Implementations
         public void Update(BillViewModel billVm)
         {
             //Mapping to order domain
-            var order = Mapper.Map<BillViewModel, Bill>(billVm);
+            var order = _mapper.Map<BillViewModel, Bill>(billVm);
 
             //Get order Detail
             var newDetails = order.BillDetails;
@@ -99,7 +100,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public List<SizeViewModel> GetSizes()
         {
-            return _sizeRepository.FindAll().ProjectTo<SizeViewModel>().ToList();
+            return _sizeRepository.FindAll().ProjectTo<SizeViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public void Save()
@@ -129,7 +130,7 @@ namespace DuongAppFirst.Application.Implementations
             var data = query.OrderByDescending(x => x.DateCreated)
                 .Skip((pageIndex - 1) * pageSize)
                 .Take(pageSize)
-                .ProjectTo<BillViewModel>()
+                .ProjectTo<BillViewModel>(_mapper.ConfigurationProvider)
                 .ToList();
             return new PagedResult<BillViewModel>()
             {
@@ -143,8 +144,8 @@ namespace DuongAppFirst.Application.Implementations
         public BillViewModel GetDetail(int billId)
         {
             var bill = _orderRepository.FindSingle(x => x.Id == billId);
-            var billVm = Mapper.Map<Bill, BillViewModel>(bill);
-            var billDetailVm = _orderDetailRepository.FindAll(x => x.BillId == billId).ProjectTo<BillDetailViewModel>().ToList();
+            var billVm = _mapper.Map<Bill, BillViewModel>(bill);
+            var billDetailVm = _orderDetailRepository.FindAll(x => x.BillId == billId).ProjectTo<BillDetailViewModel>(_mapper.ConfigurationProvider).ToList();
             billVm.BillDetails = billDetailVm;
             return billVm;
         }
@@ -153,17 +154,17 @@ namespace DuongAppFirst.Application.Implementations
         {
             return _orderDetailRepository
                 .FindAll(x => x.BillId == billId, c => c.Bill, c => c.Color, c => c.Size, c => c.Product)
-                .ProjectTo<BillDetailViewModel>().ToList();
+                .ProjectTo<BillDetailViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public List<ColorViewModel> GetColors()
         {
-            return _colorRepository.FindAll().ProjectTo<ColorViewModel>().ToList();
+            return _colorRepository.FindAll().ProjectTo<ColorViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public BillDetailViewModel CreateDetail(BillDetailViewModel billDetailVm)
         {
-            var billDetail = Mapper.Map<BillDetailViewModel, BillDetail>(billDetailVm);
+            var billDetail = _mapper.Map<BillDetailViewModel, BillDetail>(billDetailVm);
             _orderDetailRepository.Add(billDetail);
             return billDetailVm;
         }
@@ -176,12 +177,12 @@ namespace DuongAppFirst.Application.Implementations
         }
         public ColorViewModel GetColor(int id)
         {
-            return Mapper.Map<Color, ColorViewModel>(_colorRepository.FindById(id));
+            return _mapper.Map<Color, ColorViewModel>(_colorRepository.FindById(id));
         }
 
         public SizeViewModel GetSize(int id)
         {
-            return Mapper.Map<Size, SizeViewModel>(_sizeRepository.FindById(id));
+            return _mapper.Map<Size, SizeViewModel>(_sizeRepository.FindById(id));
         }
     }
 }

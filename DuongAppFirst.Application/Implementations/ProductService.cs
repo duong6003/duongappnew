@@ -6,7 +6,6 @@ using DuongAppFirst.Application.ViewModels.Product;
 using DuongAppFirst.Data.EF.Extentions;
 using DuongAppFirst.Data.Entities;
 using DuongAppFirst.Data.Enums;
-using DuongAppFirst.Data.IRepositories;
 using DuongAppFirst.Infrastructure.Interfaces;
 using DuongAppFirst.Utillities.Constants;
 using DuongAppFirst.Utillities.Dtos;
@@ -30,6 +29,7 @@ namespace DuongAppFirst.Application.Implementations
         private readonly IRepository<WholePrice, int> _wholePriceRepository;
         private readonly IRepository<Rating, int> _ratingRepository;
         private readonly IUnitOfWork _unitOfWork;
+        private readonly IMapper _mapper;
 
         public ProductService(IRepository<Product, int> productRepository,
             IRepository<Tag, string> tagRepository,
@@ -38,7 +38,7 @@ namespace DuongAppFirst.Application.Implementations
             IRepository<ProductImage, int> productImageRepository,
             IRepository<WholePrice, int> wholePriceRepository,
             IRepository<Rating, int> ratingRepository,
-            IUnitOfWork unitOfWork)
+            IUnitOfWork unitOfWork, IMapper mapper)
         {
             _productRepository = productRepository;
             _tagRepository = tagRepository;
@@ -48,6 +48,7 @@ namespace DuongAppFirst.Application.Implementations
             _wholePriceRepository = wholePriceRepository;
             _ratingRepository = ratingRepository;
             _unitOfWork = unitOfWork;
+            _mapper = mapper;
         }
 
         public ProductViewModel Add(ProductViewModel productVm)
@@ -76,7 +77,7 @@ namespace DuongAppFirst.Application.Implementations
                     };
                     productTags.Add(productTag);
                 }
-                var product = Mapper.Map<ProductViewModel, Product>(productVm);
+                var product = _mapper.Map<ProductViewModel, Product>(productVm);
                 foreach (var productTag in productTags)
                 {
                     product.ProductTags.Add(productTag);
@@ -150,7 +151,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public List<ProductViewModel> GetAll()
         {
-            return _productRepository.FindAll(x=> x.ProductCategory).ProjectTo<ProductViewModel>().ToList();
+            return _productRepository.FindAll(x=> x.ProductCategory).ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public PagedResult<ProductViewModel> GetAllPaging(int? categoryId, string keyword, int page, int pageSize)
@@ -166,7 +167,7 @@ namespace DuongAppFirst.Application.Implementations
             query = query.OrderByDescending(x => x.DateCreated)
                 .Skip((page - 1) * pageSize).Take(pageSize);
 
-            var data = query.ProjectTo<ProductViewModel>().ToList();
+            var data = query.ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider).ToList();
 
             var paginationSet = new PagedResult<ProductViewModel>()
             {
@@ -180,7 +181,7 @@ namespace DuongAppFirst.Application.Implementations
 
         public ProductViewModel GetById(int id)
         {
-            return Mapper.Map<Product, ProductViewModel>(_productRepository.FindById(id));
+            return _mapper.Map<Product, ProductViewModel>(_productRepository.FindById(id));
         }
 
         public List<ProductViewModel> GetHotProduct(int top)
@@ -188,7 +189,7 @@ namespace DuongAppFirst.Application.Implementations
             return _productRepository.FindAll(x => x.Status == Status.Active && x.HotFlag == true)
                 .OrderByDescending(x => x.DateCreated)
                 .Take(top)
-                .ProjectTo<ProductViewModel>()
+                .ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider)
                 .ToList();
         }
 
@@ -197,29 +198,29 @@ namespace DuongAppFirst.Application.Implementations
             return _productRepository.FindAll(x => x.Status == Status.Active && x.PrizeFlag == true)
                 .OrderByDescending(x => x.DateCreated)
                 .Take(top)
-                .ProjectTo<ProductViewModel>()
+                .ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider)
                 .ToList();
         }
         public List<ProductViewModel> GetTopRateProduct(int top)
         {
-            return _productRepository.FindAll().OrderProductByRating().Take(top).ProjectTo<ProductViewModel>().ToList();
+            return _productRepository.FindAll().OrderProductByRating().Take(top).ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public List<ProductImageViewModel> GetImages(int productId)
         {
             return _productImageRepository.FindAll(x => x.ProductId == productId)
-                .ProjectTo<ProductImageViewModel>().ToList();
+                .ProjectTo<ProductImageViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public List<ProductViewModel> GetLastest(int top)
         {
             return _productRepository.FindAll(x => x.Status == Status.Active).OrderByDescending(x => x.DateCreated)
-                .Take(top).ProjectTo<ProductViewModel>().ToList();
+                .Take(top).ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public List<ProductQuantityViewModel> GetQuantities(int productId)
         {
-            return _productQuantityRepository.FindAll(x => x.ProductId == productId).ProjectTo<ProductQuantityViewModel>().ToList();
+            return _productQuantityRepository.FindAll(x => x.ProductId == productId).ProjectTo<ProductQuantityViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public List<ProductViewModel> GetRelatedProducts(int id, int top)
@@ -229,7 +230,7 @@ namespace DuongAppFirst.Application.Implementations
                 && x.Id != id && x.CategoryId == product.CategoryId)
             .OrderByDescending(x => x.DateCreated)
             .Take(top)
-            .ProjectTo<ProductViewModel>()
+            .ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider)
             .ToList();
         }
 
@@ -238,12 +239,12 @@ namespace DuongAppFirst.Application.Implementations
             return _productRepository.FindAll(x => x.PromotionPrice != null)
                .OrderByDescending(x => x.DateModified)
                .Take(top)
-               .ProjectTo<ProductViewModel>().ToList();
+               .ProjectTo<ProductViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public List<WholePriceViewModel> GetWholePrices(int productId)
         {
-            return _wholePriceRepository.FindAll(x => x.ProductId == productId).ProjectTo<WholePriceViewModel>().ToList();
+            return _wholePriceRepository.FindAll(x => x.ProductId == productId).ProjectTo<WholePriceViewModel>(_mapper.ConfigurationProvider).ToList();
         }
 
         public void ImportExcel(string filePath, int categoryId)
@@ -318,7 +319,7 @@ namespace DuongAppFirst.Application.Implementations
                 }
             }
 
-            var product = Mapper.Map<ProductViewModel, Product>(productVm);
+            var product = _mapper.Map<ProductViewModel, Product>(productVm);
             foreach (var productTag in productTags)
             {
                 product.ProductTags.Add(productTag);

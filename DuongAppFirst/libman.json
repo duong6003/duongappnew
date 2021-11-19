@@ -58,6 +58,15 @@
     {
       "library": "bootstrap-datepicker@1.7.1",
       "destination": "wwwroot/lib/bootstrap-datepicker"
+    },
+    {
+      "provider": "unpkg",
+      "library": "@microsoft/signalr@latest",
+      "destination": "wwwroot/lib/microsoft/signalr/",
+      "files": [
+        "dist/browser/signalr.js",
+        "dist/browser/signalr.min.js"
+      ]
     }
   ]
 }
